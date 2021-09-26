@@ -1,0 +1,44 @@
+<div class="hero" *ngIf="!pageLoading">
+  <div class="hero-title">
+    <h2>Verify your email, {{ userDetails.email }}</h2>
+    <p>Check your mail for the OTP.</p>
+  </div>
+  <div class="hero-form">
+    <form [formGroup]="otpForm" (submit)="onOtpFormSubmit()">
+      <mat-form-field>
+        <mat-label>Otp</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Enter your four digit otp"
+          formControlName="otp"
+          name="otp"
+        />
+        <mat-error *ngIf="otpForm.get('otp').hasError('required')">
+          Otp is required
+        </mat-error>
+        <mat-error
+          *ngIf="
+            otpForm.get('otp').hasError('minlength') ||
+            otpForm.get('otp').hasError('maxlength')
+          "
+        >
+          Otp should be 4 digits.
+        </mat-error>
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="primary">
+        Verify email
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="accent"
+        (click)="getEmailOtp()"
+      >
+        Get OTP
+      </button>
+    </form>
+  </div>
+</div>
+
+<app-loader *ngIf="pageLoading"></app-loader>

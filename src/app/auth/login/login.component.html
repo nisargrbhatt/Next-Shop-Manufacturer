@@ -1,0 +1,75 @@
+<div class="hero" *ngIf="!pageLoading">
+  <div class="hero-title">
+    <h1>Login</h1>
+  </div>
+  <div class="hero-form">
+    <form [formGroup]="loginForm" (submit)="onLogin()">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          name="email"
+          formControlName="email"
+          placeholder="Enter your email"
+        />
+        <mat-error *ngIf="loginForm.get('email').hasError('required')"
+          >Email is Required</mat-error
+        >
+        <mat-error *ngIf="loginForm.get('email').hasError('email')"
+          >Please Provide valid Email.</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+
+        <input
+          matInput
+          [type]="showPassword ? 'text' : 'password'"
+          name="password"
+          placeholder="Enter Your Password"
+          formControlName="password"
+          (keyup)="passwordErrorChecker($event)"
+        />
+        <button
+          matSuffix
+          mat-button
+          type="button"
+          *ngIf="!showPassword"
+          (click)="showPassword = true"
+        >
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button
+          matSuffix
+          mat-button
+          type="button"
+          *ngIf="showPassword"
+          (click)="showPassword = false"
+        >
+          <mat-icon>visibility_off</mat-icon>
+        </button>
+        <mat-error *ngIf="loginForm.get('password').hasError('required')"
+          >Password is Required</mat-error
+        >
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        type="submit"
+        name="login"
+        color="primary"
+        class="login-btn"
+        [disabled]="loginForm.invalid"
+      >
+        <span *ngIf="!loginLoading">Login</span>
+        <mat-progress-spinner
+          mode="indeterminate"
+          *ngIf="loginLoading"
+        ></mat-progress-spinner>
+      </button>
+    </form>
+  </div>
+</div>
+<app-loader *ngIf="pageLoading"></app-loader>

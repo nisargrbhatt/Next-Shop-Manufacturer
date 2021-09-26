@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Menu icon"
+    (click)="changeSideNavState(true)"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="brand-hero"><a routerLink="/">Next Shop</a></span>
+</mat-toolbar>
+<app-sidenav
+  [sideNavShow]="sideNavShow"
+  (changeSideNavState)="changeSideNavState($event)"
+></app-sidenav>

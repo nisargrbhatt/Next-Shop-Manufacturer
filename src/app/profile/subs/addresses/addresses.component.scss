@@ -1,0 +1,19 @@
+.hero {
+  .hero-address {
+    display: block;
+    .hero-address-item {
+      td {
+        padding: 0.3rem 1rem;
+      }
+      .hero-address-label {
+        font-weight: 550;
+      }
+    }
+  }
+}
+
+.no-data {
+  display: block;
+  margin: 1rem 2rem;
+  text-align: center;
+}

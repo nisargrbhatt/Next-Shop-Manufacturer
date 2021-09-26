@@ -1,0 +1,20 @@
+<div *ngIf="!pageLoding">
+  <div class="hero">
+    <mat-tab-group mat-align-tabs="center">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="mat-tab-icon">account_circle</mat-icon> Profile
+        </ng-template>
+        <app-user-details></app-user-details>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="mat-tab-icon">home</mat-icon> Address
+        </ng-template>
+        <app-addresses></app-addresses>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <app-loader *ngIf="pageLoding"></app-loader>
+</div>

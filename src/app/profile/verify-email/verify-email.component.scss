@@ -1,0 +1,26 @@
+.hero {
+  display: block;
+  margin: 2rem;
+  .hero-title {
+    padding: 2rem;
+  }
+}
+
+.hero-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  form {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin: 2.5rem 1rem;
+    mat-form-field {
+      display: block;
+    }
+    button {
+      margin: 0.5rem 1rem;
+    }
+  }
+}

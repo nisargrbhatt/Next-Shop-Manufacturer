@@ -1,0 +1,126 @@
+<div class="hero" *ngIf="!pageLoding">
+  <div class="hero-title">
+    <h2>Add Address</h2>
+  </div>
+  <div class="hero-form">
+    <form [formGroup]="addressForm" (submit)="onAddressFormSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          type="text"
+          name="name"
+          placeholder="Enter your name"
+          formControlName="name"
+        />
+        <mat-hint>This name will be displayed to the invoice.</mat-hint>
+        <mat-error *ngIf="addressForm.get('name').hasError('required')"
+          >Name is required</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label> Address line1 </mat-label>
+        <input
+          matInput
+          type="text"
+          name="address_line1"
+          placeholder="Block No:123, Sector-XYZ,..."
+          formControlName="address_line1"
+        />
+        <mat-error *ngIf="addressForm.get('address_line1').hasError('required')"
+          >Address is required</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label> Address line2 </mat-label>
+        <input
+          matInput
+          type="text"
+          name="address_line2"
+          placeholder="Landmark, Locality, ..."
+          formControlName="address_line2"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <input
+          matInput
+          type="text"
+          name="city"
+          placeholder="City Name"
+          formControlName="city"
+        />
+        <mat-error *ngIf="addressForm.get('city').hasError('required')"
+          >City is required</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>State</mat-label>
+        <input
+          matInput
+          type="text"
+          name="state"
+          placeholder="State Name"
+          formControlName="state"
+        />
+        <mat-error *ngIf="addressForm.get('state').hasError('required')"
+          >State is required</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label> Zipcode </mat-label>
+        <input
+          type="text"
+          matInput
+          name="zipcode"
+          placeholder="Postal Code"
+          formControlName="zipcode"
+        />
+        <mat-error *ngIf="addressForm.get('zipcode').hasError('required')"
+          >Zipcode is required</mat-error
+        >
+        <mat-error
+          *ngIf="
+            addressForm.get('zipcode').hasError('minlength') ||
+            addressForm.get('zipcode').hasError('maxlength')
+          "
+          >Zipcode has to be 6 digits</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Contact No</mat-label>
+        <input
+          type="tel"
+          name="contact_no"
+          formControlName="contact_no"
+          matInput
+          placeholder="Enter your contact no"
+        />
+        <mat-error *ngIf="addressForm.get('contact_no').hasError('required')"
+          >Contact no is required</mat-error
+        >
+        <mat-error
+          *ngIf="
+            addressForm.get('contact_no').hasError('minlength') ||
+            addressForm.get('contact_no').hasError('maxlength')
+          "
+          >Contact no has to be 10 digits</mat-error
+        >
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="addressForm.invalid"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+<app-loader *ngIf="pageLoding"></app-loader>

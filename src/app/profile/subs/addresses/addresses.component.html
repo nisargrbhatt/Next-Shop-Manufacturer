@@ -1,0 +1,44 @@
+<div class="hero" *ngIf="!pageLoding">
+  <mat-accordion title="Addresses" *ngIf="addresses.count > 0">
+    <mat-expansion-panel *ngFor="let address of addresses.rows" title="Address">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ address.name }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ address.city }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="hero-address">
+        <!-- <div *ngFor="let addressKeys of getAddressKeys(address)" class="hero-address-item"> -->
+
+        <table>
+          <tr
+            *ngFor="let addressKeys of getAddressKeys(address)"
+            class="hero-address-item"
+          >
+            <td class="hero-address-label">
+              {{ addressKeys | titlecase }}
+            </td>
+            <td>
+              {{ address[addressKeys] }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <div class="no-data" *ngIf="addresses.count < 1">
+    <p>No address registered.</p>
+    <p>Please add address for your first order delivery</p>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="addAddress()"
+    >
+      Add address
+    </button>
+  </div>
+</div>
+<app-loader *ngIf="pageLoding"></app-loader>
