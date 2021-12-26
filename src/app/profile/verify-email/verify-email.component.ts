@@ -1,4 +1,4 @@
-import { AuthService } from 'src/app/auth/auth.service';
+import { Auth0Service } from 'src/app/auth/auth0.service';
 import { Router } from '@angular/router';
 import {
   EmailOtpCheckResponse,
@@ -42,7 +42,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
     private router: Router,
     private snackbarService: MatSnackBar,
     private dialogService: MatDialog,
-    private authService: AuthService,
+    private authService: Auth0Service,
   ) {}
 
   ngOnInit(): void {

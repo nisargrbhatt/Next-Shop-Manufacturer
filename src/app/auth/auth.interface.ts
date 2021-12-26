@@ -1,11 +1,3 @@
-export interface UserData {
-  token: string;
-  expiresIn: number;
-  role: string;
-  access: string;
-  emailVerified: boolean;
-}
-
 export interface ErrorData {
   code: string;
   message: string;
@@ -16,43 +8,33 @@ export interface DialogData {
   message: string;
 }
 
-export interface SignupResponseData {
-  token: string;
-  expiresIn: number;
+export interface OAuthCallBody {
+  email: string;
+  name: string;
+  sub: string;
+
+  email_verified: boolean;
+  role: string;
+}
+
+export interface OAuthCallResponseData {
   role: string;
   access: string;
-  emailVerified: boolean;
+  emailVerified: string;
   userId: string;
 }
-export interface LoginResponseData {
-  token: string;
-  expiresIn: number;
-  role: string;
-  access: string;
-  emailVerified: boolean;
-  userId: string;
-}
-export interface SignupResponse {
+
+export interface OAuthCallResponse {
   message: string;
   valid: boolean;
   error?: ErrorData;
   dialog?: DialogData;
-  data?: SignupResponseData;
+  data?: OAuthCallResponseData;
 }
 
-export interface LoginResponse {
-  message: string;
-  valid: boolean;
-  error?: ErrorData;
-  dialog?: DialogData;
-  data?: LoginResponseData;
-}
-
-export interface AuthData {
-  token: string;
-  expiresIn: number;
+export interface Auth0ProfileData {
   role: string;
   access: string;
-  emailVerified: boolean;
+  emailVerified: string;
   userId: string;
 }

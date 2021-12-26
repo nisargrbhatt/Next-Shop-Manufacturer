@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/auth/auth.service';
+import { Auth0Service } from 'src/app/auth/auth0.service';
 import { ErrorComponent } from 'src/app/shared/dialog/error/error.component';
 import { ResMesComponent } from 'src/app/shared/dialog/res-mes/res-mes.component';
 import { environment } from 'src/environments/environment';
@@ -30,7 +30,7 @@ export class AddressesComponent implements OnInit, OnDestroy {
 
   constructor(
     private profileService: ProfileService,
-    private authService: AuthService,
+    private authService: Auth0Service,
     private router: Router,
     private snackbarService: MatSnackBar,
     private dialogService: MatDialog,

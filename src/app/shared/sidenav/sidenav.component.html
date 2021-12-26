@@ -6,16 +6,10 @@
       routerLink="auth/login"
       routerLinkActive="mat-accent"
       *ngIf="!isAuthenticated"
-      (click)="closeNav()"
+      (click)="auth0Login()"
       ><mat-icon>login</mat-icon> Login</a
     >
-    <a
-      routerLink="auth/signup"
-      routerLinkActive="mat-accent"
-      *ngIf="!isAuthenticated"
-      (click)="closeNav()"
-      ><mat-icon>create</mat-icon> Signup</a
-    >
+
     <a
       *ngIf="isAuthenticated"
       routerLink="profile/profile-view"
@@ -23,7 +17,8 @@
       (click)="closeNav()"
       ><mat-icon> manage_accounts</mat-icon> Manage Account</a
     >
-    <a *ngIf="isAuthenticated" (click)="logout()"
+
+    <a *ngIf="isAuthenticated" (click)="auth0Logout()"
       ><mat-icon>logout</mat-icon> Logout</a
     >
   </span>

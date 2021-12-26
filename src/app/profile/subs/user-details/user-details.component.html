@@ -1,88 +1,41 @@
 <div class="hero" *ngIf="!pageLoding">
-  <div class="hero-form">
-    <button
-      id="userdetails-form-edit-btn"
-      type="button"
-      mat-fab
-      color="accent"
-      *ngIf="userDetailsFormDisabled"
-      (click)="enableUserDetailsForm()"
-    >
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button
-      id="userdetails-form-close-btn"
-      type="button"
-      mat-fab
-      color="warn"
-      *ngIf="!userDetailsFormDisabled"
-      (click)="disableUserDetailsForm()"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
-    <form [formGroup]="userDetailsForm" (submit)="onUserDetailsFormSubmit()">
-      <mat-form-field appearance="outline">
-        <mat-label>Name</mat-label>
-        <input
-          matInput
-          name="name"
-          type="text"
-          formControlName="name"
-          placeholder="Enter your name"
-        />
-        <mat-error *ngIf="userDetailsFormName.hasError('required')">
-          Name is required
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input
-          matInput
-          name="email"
-          type="email"
-          formControlName="email"
-          placeholder="Enter your email"
-        />
-        <mat-error *ngIf="userDetailsFormEmail.hasError('required')"
-          >Email is required</mat-error
+  <div class="profile-image">
+    <img [src]="auth0ProfileClaims['picture']" />
+  </div>
+  <div class="profile-field">
+    <div class="profile-field-label">
+      <p>Name:</p>
+    </div>
+    <div class="profile-field-value">
+      <p>{{ auth0ProfileClaims['name'] }}</p>
+    </div>
+  </div>
+  <div class="profile-field">
+    <div class="profile-field-label">
+      <p>Email:</p>
+    </div>
+    <div class="profile-field-value">
+      <p>{{ auth0ProfileClaims['email'] }}</p>
+    </div>
+  </div>
+  <div class="profile-field">
+    <div class="profile-field-label">
+      <p>Email Verified:</p>
+    </div>
+    <div class="profile-field-value">
+      <p>
+        <mat-icon
+          *ngIf="auth0ProfileClaims['email_verified']"
+          style="color: green"
+          >check</mat-icon
         >
-        <mat-error *ngIf="userDetailsFormEmail.hasError('email')"
-          >Email is not in valid format</mat-error
+        <mat-icon
+          *ngIf="!auth0ProfileClaims['email_verified']"
+          style="color: red"
+          >close</mat-icon
         >
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Contact No</mat-label>
-        <input
-          matInput
-          name="contact_no"
-          type="tel"
-          formControlName="contact_no"
-          placeholder="Enter your contact no"
-        />
-        <mat-error *ngIf="userDetailsFormContactNo.hasError('required')"
-          >Contact No is required</mat-error
-        >
-      </mat-form-field>
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        *ngIf="!userDetailsFormDisabled"
-        [disabled]="userDetailsForm.invalid"
-      >
-        Submit
-      </button>
-
-      <button
-        mat-raised-button
-        color="accent"
-        type="button"
-        *ngIf="!userDetails.email_verified"
-        routerLink="/profile/verify-email"
-      >
-        Verify Email
-      </button>
-    </form>
+      </p>
+    </div>
   </div>
 </div>
 <app-loader *ngIf="pageLoding"></app-loader>

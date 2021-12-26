@@ -1,4 +1,4 @@
-import { AuthService } from './../../auth/auth.service';
+import { Auth0Service } from '../../auth/auth0.service';
 import {
   Component,
   EventEmitter,
@@ -9,6 +9,7 @@ import {
   Output,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-sidenav',
@@ -23,7 +24,10 @@ export class SidenavComponent implements OnInit, OnChanges {
   isAuthenticated = false;
   private authStatusSub: Subscription;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: Auth0Service,
+    private auth0Service: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.isAuthenticated = this.authService.IsAuth;
@@ -49,7 +53,11 @@ export class SidenavComponent implements OnInit, OnChanges {
     }
   }
 
-  logout(): void {
+  auth0Login(): void {
+    this.auth0Service.loginWithRedirect().subscribe(() => {});
+  }
+
+  auth0Logout(): void {
     this.authService.logout();
     this.closeNav();
   }

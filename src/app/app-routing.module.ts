@@ -1,4 +1,4 @@
-import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard } from '@auth0/auth0-angular';
 import { Error404Component } from './error404/error404.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';

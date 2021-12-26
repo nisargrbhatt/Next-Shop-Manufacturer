@@ -4,12 +4,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { EmailValidator } from './signup/email.validator';
 import { AngularMaterialModule } from './../angular-material.module';
-import { AuthService } from './auth.service';
+
 import { AuthRoutingModule } from './auth-routing.module';
-import { SignupComponent } from './signup/signup.component';
-import { LoginComponent } from './login/login.component';
 
 @NgModule({
   imports: [
@@ -21,8 +18,8 @@ import { LoginComponent } from './login/login.component';
     SharedModule,
     RouterModule,
   ],
-  declarations: [SignupComponent, LoginComponent],
-  providers: [EmailValidator],
+  declarations: [],
+  providers: [],
   exports: [],
 })
 export class AuthModule {}

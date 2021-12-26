@@ -1,3 +1,4 @@
+import { environment, secureAPIURIs } from 'src/environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from './angular-material.module';
 import { SharedModule } from './shared/shared.module';
@@ -9,8 +10,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from './auth/auth.service';
-import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
+import { Auth0Service } from './auth/auth0.service';
 import { Error404Component } from './error404/error404.component';
 @NgModule({
   declarations: [AppComponent, Error404Component],
@@ -24,10 +25,43 @@ import { Error404Component } from './error404/error404.component';
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
+    AuthModule.forRoot({
+      // The domain and clientId were configured in the previous chapter
+      domain: environment.auth0Domain,
+      clientId: environment.auth0ClientId,
+
+      // Request this audience at user authentication time
+      audience: environment.auth0Audience,
+
+      // Request this scope at user authentication time
+      scope: 'read:current_user',
+
+      // Specify configuration for the interceptor
+      httpInterceptor: {
+        // allowedList: [
+        //   {
+        //     // Match any request that starts 'https://dev-qf3-53r4.us.auth0.com/api/v2/' (note the asterisk)
+        //     uri: 'http://localhost:7000/*',
+        //     tokenOptions: {
+        //       // The attached token should target this audience
+        //       audience: 'http://localhost:7000',
+
+        //       // The attached token should have these scopes
+        //       scope: 'read:current_user',
+        //     },
+        //   },
+
+        // ],
+        allowedList: Object.values(secureAPIURIs).map((uri) => {
+          return environment.backend_url + uri;
+        }),
+        // allowedList: ['http://localhost:3001/user/oAuthCall'],
+      },
+    }),
   ],
   providers: [
-    AuthService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    Auth0Service,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

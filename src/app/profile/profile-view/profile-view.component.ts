@@ -2,7 +2,7 @@ import { GetAddressesData, GetAddressesResponse } from './../profile.interface';
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AuthService } from './../../auth/auth.service';
+import { Auth0Service } from '../../auth/auth0.service';
 import { ProfileService } from './../profile.service';
 import {
   Component,
@@ -30,7 +30,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private profileService: ProfileService,
-    private authService: AuthService,
+    private authService: Auth0Service,
     private router: Router,
     private snackbarService: MatSnackBar,
     private dialogService: MatDialog,

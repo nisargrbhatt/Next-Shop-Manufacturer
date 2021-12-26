@@ -3,7 +3,7 @@ import { AddAddressComponent } from './add-address/add-address.component';
 import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../guards/auth.guard';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 const routes: Routes = [
   {

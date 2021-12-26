@@ -1,4 +1,4 @@
-import { AuthService } from './../auth/auth.service';
+import { Auth0Service } from '../auth/auth0.service';
 import { RouterModule } from '@angular/router';
 import { AngularMaterialModule } from './../angular-material.module';
 import { CommonModule } from '@angular/common';
