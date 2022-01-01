@@ -1,0 +1,136 @@
+<div *ngIf="!pageLoading">
+  <div class="hero">
+    <div class="hero-form">
+      <form [formGroup]="kycApprovalForm" (submit)="onCreate()">
+        <mat-form-field appearance="outline">
+          <mat-label> Name </mat-label>
+          <input
+            type="text"
+            matInput
+            placeholder="Enter your Aadhaar Registered Name"
+            formControlName="name"
+            name="name"
+          />
+          <mat-error *ngIf="kycApprovalForm.get('name').hasError('required')"
+            >Name is required.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label> Aadhaar Number </mat-label>
+          <input
+            matInput
+            type="text"
+            name="aadhaar_number"
+            placeholder="Enter your Aadhaar Number"
+            formControlName="aadhaar_number"
+          />
+          <mat-error
+            *ngIf="kycApprovalForm.get('aadhaar_number').hasError('required')"
+            >Aadhaar Number is required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              kycApprovalForm.get('aadhaar_number').hasError('minLength') ||
+              kycApprovalForm.get('aadhaar_number').hasError('maxLength')
+            "
+            >Aadhaar Number should be 12 digits
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Contact No</mat-label>
+          <input
+            type="tel"
+            name="contact_no"
+            placeholder="Enter your Aadhaar Registered Contact No"
+            formControlName="contact_no"
+            matInput
+          />
+          <mat-error
+            *ngIf="
+              kycApprovalForm.get('contact_no').hasError('minLength') ||
+              kycApprovalForm.get('contact_no').hasError('maxLength')
+            "
+          >
+            Contact Number should be 10 digits
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your Aadhaar Registered Email"
+            formControlName="email"
+            matInput
+          />
+          <mat-error *ngIf="kycApprovalForm.get('required')"
+            >Email is required</mat-error
+          >
+          <mat-error *ngIf="kycApprovalForm.get('email')"
+            >Input should be in Email format</mat-error
+          >
+        </mat-form-field>
+      </form>
+      <form [formGroup]="imageForm">
+        <div>
+          <input
+            type="file"
+            id="files"
+            multiple
+            (change)="detectFiles($event)"
+            accept="image/x-png,image/jpeg"
+            #filePicker
+          />
+          <button mat-stroked-button type="button" (click)="filePicker.click()">
+            Pick Images
+          </button>
+        </div>
+
+        <div class="images-preview mt-2" *ngIf="photos.length">
+          <div class="row">
+            <div
+              class="col-md-6 col-lg-3 col-xl-2"
+              formArrayName="photos"
+              *ngFor="let photo of photos.controls; let i = index"
+            >
+              <div class="card mb-3" [formGroupName]="i">
+                <button
+                  type="button"
+                  (click)="removePhoto(i)"
+                  class="btn btn-danger remove-btn"
+                >
+                  x
+                </button>
+                <img
+                  [src]="photo.controls.url.value"
+                  class="card-img-top"
+                  alt="Image Preview"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="submit-btn">
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          (click)="onCreate()"
+        >
+          Create KYC Approval
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div
+      class="col-xs-12 col-sm-10 col-md-8 col-md-offset-2 col-sm-offset-1"
+    ></div>
+  </div>
+</div>
+
+<app-loader *ngIf="pageLoading"></app-loader>

@@ -1,0 +1,68 @@
+.hero {
+  display: block;
+  margin: 2rem;
+
+  .hero-title {
+    padding: 2rem;
+  }
+}
+
+.hero-form {
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+
+  form {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin: 2.5rem 1rem;
+    mat-form-field {
+      display: block;
+    }
+    button {
+      // margin: 0.5rem 1rem;
+      display: block;
+    }
+
+    .submit-btn {
+      display: flex;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+input[type='file'] {
+  visibility: hidden;
+}
+
+//////////////
+p {
+  font-family: Lato;
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+.images-preview {
+  padding: 20px 20px 0px 20px;
+  background-color: #fafafa;
+  border-radius: 4px;
+  border: 1px dashed #d9d9d9;
+}
+
+.images-preview .remove-btn {
+  position: absolute;
+  right: 0;
+  border-radius: 0;
+}
+
+.images-preview img {
+  max-height: 150px;
+  object-fit: cover;
+}
+.images-preview .card-body {
+  padding: 1rem;
+}

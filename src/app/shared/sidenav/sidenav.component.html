@@ -12,6 +12,14 @@
 
     <a
       *ngIf="isAuthenticated"
+      routerLink="kyc"
+      routerLinkActive="mat-accent"
+      (click)="closeNav()"
+      ><mat-icon> domain_verification</mat-icon> KYC</a
+    >
+
+    <a
+      *ngIf="isAuthenticated"
       routerLink="profile/profile-view"
       routerLinkActive="mat-accent"
       (click)="closeNav()"

@@ -9,7 +9,34 @@ export const environment = {
   role: 'Manufacturer',
 };
 
-export const basicAPIURIs = [];
+export const basicAPIURIs = {
+  // Review Controller
+  getReviewsByProductId: '/review/getReviewsByProductId',
+  // Product Controller
+  getApprovalRequiredProduct: '/product/getApprovalRequiredProduct',
+  getProduct: '/product/getProduct',
+  getProductWithCategory: '/product/getProductWithCategory',
+  getProductWithCategoryPrice: '/product/getProductWithCategoryPrice',
+  getProductWithCategoryPriceReview:
+    '/product/getProductWithCategoryPriceReview',
+  getProductWithCategoryPriceReviewManufacturer:
+    '/product/getProductWithCategoryPriceReviewManufacturer',
+  getProductWithCategoryBySearch: '/product/getProductWithCategoryBySearch',
+  getProductWithCategoryByManufacturerId:
+    '/product/getProductWithCategoryByManufacturerId',
+  // Category Controller
+  getAllCategories: '/category/getAllCategories',
+  getCategory: '/category/getCategory',
+  getCategoryByName: '/category/getCategoryByName',
+  getCategoryById: '/category/getCategoryById',
+  // Image Controller
+  getImageByProductId: '/image/getImageByProductId',
+  // User Controller
+  emailCheck: '/user/emailCheck',
+  oAuthCall: '/user/oAuthCall',
+  // KYCImage Controller
+  getImageByKycId: '/kyc-image/getImageByKycId',
+};
 
 export const secureAPIURIs = {
   // User Controller
@@ -47,4 +74,14 @@ export const secureAPIURIs = {
   // Image Controller
   addImage: '/image/addImage',
   deleteImage: '/image/deleteImage',
+  // KYC Controller
+  createKycApproval: '/kyc/createKycApproval',
+  findAllApprovalPending: '/kyc/findAllApprovalPending',
+  acceptTheKycApproval: '/kyc/acceptTheKycApproval',
+  getKycApproval: '/kyc/getKycApproval',
+  getKYCApprovalByMerchantManufacturerId:
+    '/kyc/getKYCApprovalByMerchantManufacturerId',
+  // KYCImage Controller
+  addKYCImage: '/kyc-image/addKYCImage',
+  deleteKYCImage: '/kyc-image/deleteKYCImage',
 };
