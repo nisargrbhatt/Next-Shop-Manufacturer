@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Auth0Service } from 'src/app/auth/auth0.service';
 import { ProfileService } from '../../profile.service';
 import { User } from '@auth0/auth0-angular';
+import { Auth0ProfileData } from 'src/app/auth/auth.interface';
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
@@ -16,6 +17,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   pageLoding = false;
 
   public auth0ProfileClaims: User;
+  public profileClaims: Auth0ProfileData;
 
   private authStatusSub: Subscription;
 
@@ -33,6 +35,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     );
 
     this.auth0ProfileClaims = this.authService.Auth0ProfileClaims;
+    this.profileClaims = this.authService.ProfileClaims;
     this.pageLoding = false;
   }
 

@@ -22,6 +22,7 @@ export interface OAuthCallResponseData {
   access: string;
   emailVerified: string;
   userId: string;
+  merchantVerified: boolean;
 }
 
 export interface OAuthCallResponse {
@@ -37,4 +38,5 @@ export interface Auth0ProfileData {
   access: string;
   emailVerified: string;
   userId: string;
+  merchantVerified: boolean;
 }

@@ -14,6 +14,10 @@ const routes: Routes = [
       import('./profile/profile.module').then((m) => m.ProfileModule),
   },
   {
+    path: 'kyc',
+    loadChildren: () => import('./kyc/kyc.module').then((m) => m.KycModule),
+  },
+  {
     path: '**',
     component: Error404Component,
   },

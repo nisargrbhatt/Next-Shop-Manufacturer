@@ -37,5 +37,20 @@
       </p>
     </div>
   </div>
+  <div class="profile-field">
+    <div class="profile-field-label">
+      <p>KYC Verified:</p>
+    </div>
+    <div class="profile-field-value">
+      <p>
+        <mat-icon *ngIf="profileClaims['merchantVerified']" style="color: green"
+          >check</mat-icon
+        >
+        <mat-icon *ngIf="!profileClaims['merchantVerified']" style="color: red"
+          >close</mat-icon
+        >
+      </p>
+    </div>
+  </div>
 </div>
 <app-loader *ngIf="pageLoding"></app-loader>
