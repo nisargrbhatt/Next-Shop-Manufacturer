@@ -28,7 +28,7 @@ export class KycService {
   ): Promise<CreateKycApprovalResponse> {
     return await this.httpService
       .post<CreateKycApprovalResponse>(
-        BACKEND_URL + secureAPIURIs.createKycApproval,
+        BACKEND_URL + secureAPIURIs.createKycApproval.url,
         createKycApprovalData,
       )
       .toPromise();
@@ -37,20 +37,15 @@ export class KycService {
   async findAllKYCApprovals(): Promise<FindAllKYCApprovalsResponse> {
     return await this.httpService
       .get<FindAllKYCApprovalsResponse>(
-        BACKEND_URL + secureAPIURIs.getKYCApprovalByMerchantManufacturerId,
+        BACKEND_URL + secureAPIURIs.getKYCApprovalByMerchantManufacturerId.url,
       )
       .toPromise();
   }
 
   async findKYCApproval(id: string): Promise<FindKYCApprovalResponse> {
-    const httpParams = new HttpParams();
-    httpParams.append('kycId', id);
     return await this.httpService
       .get<FindKYCApprovalResponse>(
-        BACKEND_URL + secureAPIURIs.getKycApproval,
-        {
-          params: httpParams,
-        },
+        BACKEND_URL + secureAPIURIs.getKycApproval.url + `/?kycId=${id}`,
       )
       .toPromise();
   }

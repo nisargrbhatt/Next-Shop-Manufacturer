@@ -1,0 +1,36 @@
+<div class="hero">
+  <div class="product-image">
+    <img
+      [src]="
+        productDetails.images.length > 0
+          ? productDetails.images[0].url
+          : 'assets/statics/product-image.jpg'
+      "
+      [alt]="productDetails.name"
+    />
+  </div>
+  <div class="product-name">
+    {{ productDetails.name | titlecase }}
+  </div>
+  <div class="product-category">
+    {{ productDetails.category | titlecase }}
+  </div>
+  <div class="product-ratings">
+    <div class="ratings">
+      <div class="star-yellow"></div>
+      <div class="star-yellow"></div>
+      <div class="star-yellow"></div>
+      <div class="star-grey"></div>
+      <div class="star-grey"></div>
+    </div>
+    <div class="reviews">123 Reviews</div>
+  </div>
+  <div class="product-actions">
+    <button class="wishlist-btn" type="button">
+      <div class="wishlist-btn-text">Wishlist</div>
+      <div class="wishlist-btn-icon">
+        <mat-icon>favorite</mat-icon>
+      </div>
+    </button>
+  </div>
+</div>

@@ -17,6 +17,13 @@
       (click)="closeNav()"
       ><mat-icon> domain_verification</mat-icon> KYC</a
     >
+    <a
+      *ngIf="isAuthenticated"
+      routerLink="product"
+      routerLinkActive="mat-accent"
+      (click)="closeNav()"
+      ><mat-icon> inventory_2</mat-icon> Product</a
+    >
 
     <a
       *ngIf="isAuthenticated"
