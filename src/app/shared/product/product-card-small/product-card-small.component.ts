@@ -1,5 +1,5 @@
 import { ProductCardSmallDetails } from './../product.interface';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-product-card-small',
@@ -8,6 +8,11 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ProductCardSmallComponent implements OnInit {
   @Input() productDetails: ProductCardSmallDetails;
+  @Input() cardHeight: number;
+  @Input() cardWidth: number;
+  @Input() actionName: string;
+  @Input() actionIcon: string;
+  @Output() actionClick: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {}
 

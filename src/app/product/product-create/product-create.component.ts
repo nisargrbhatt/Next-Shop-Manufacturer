@@ -1,3 +1,4 @@
+import { Auth0Service } from 'src/app/auth/auth0.service';
 import { CreateProductResponse } from './../product.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -7,7 +8,10 @@ import {
   GetAllCategoryResponse,
   GetAllCategoryResponseData,
 } from './../category.interface';
-import { ProductCardSmallDetails } from './../../shared/product/product.interface';
+import {
+  ProductCardSmallDetails,
+  ProductCardLongDetails,
+} from './../../shared/product/product.interface';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from './../product.service';
 import { Component, OnInit } from '@angular/core';
@@ -34,10 +38,17 @@ export class ProductCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private dialogService: MatDialog,
+    private authService: Auth0Service,
   ) {}
 
   ngOnInit(): void {
     this.pageLoading = true;
+    if (!this.authService.ProfileClaims.merchantVerified) {
+      this.snackBarService.open('KYC is not verified', 'Ok', {
+        duration: 2 * 1000,
+      });
+      this.router.navigate(['/product']);
+    }
     this.productForm = this.formBuilder.group({
       name: this.formBuilder.control('', { validators: [Validators.required] }),
       description: this.formBuilder.control('', {
@@ -108,15 +119,52 @@ export class ProductCreateComponent implements OnInit {
   }
 
   get productCardSmallDetails(): ProductCardSmallDetails {
+    const name = this.productForm.value.name
+      ? this.productForm.value.name.length < 33
+        ? this.productForm.value.name
+        : this.productForm.value.name.slice(0, 30) + '...'
+      : 'Product Name';
     const productCardSmallDetails: ProductCardSmallDetails = {
-      name: this.productForm.value.name || 'Product Name',
+      name: name,
       category:
         this.categories.rows.find((category) => {
           return category.id === this.productForm.value.categoryId;
         })?.name || 'Category',
-      images: this.productForm.value.image || [],
+      image:
+        this.productForm.value.image.length > 0
+          ? this.productForm.value.image[0].url
+          : '',
     };
     return productCardSmallDetails;
+  }
+
+  get productCardLongDetails(): ProductCardLongDetails {
+    const name = this.productForm.value.name
+      ? this.productForm.value.name.length < 33
+        ? this.productForm.value.name
+        : this.productForm.value.name.slice(0, 30) + '...'
+      : 'Product Name';
+    const small_description = this.productForm.value.small_description
+      ? this.productForm.value.small_description.length < 103
+        ? this.productForm.value.small_description
+        : this.productForm.value.small_description.slice(0, 100) + '...'
+      : 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur voluptates maxime facilis a laboriosam atque reiciendis impedit saepe vero recusandae assumenda illum esse delectus aliquam corrupti ipsam, eos autem aspernatur.'.slice(
+          0,
+          100,
+        ) + '...';
+    const productCardLongDetails: ProductCardLongDetails = {
+      name: name,
+      category:
+        this.categories.rows.find((category) => {
+          return category.id === this.productForm.value.categoryId;
+        })?.name || 'Category',
+      image:
+        this.productForm.value.image.length > 0
+          ? this.productForm.value.image[0].url
+          : '',
+      small_description: small_description,
+    };
+    return productCardLongDetails;
   }
 
   async getCategoryData(): Promise<void> {

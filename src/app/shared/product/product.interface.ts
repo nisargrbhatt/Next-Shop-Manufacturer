@@ -1,10 +1,13 @@
 export interface ProductCardSmallDetails {
+  id?: string;
   name?: string;
   category?: string;
-  images?: Image[];
+  image?: string;
 }
 
-export interface Image {
-  file: string;
-  url: string;
+export interface ProductCardLongDetails {
+  name?: string;
+  category?: string;
+  image?: string;
+  small_description: string;
 }

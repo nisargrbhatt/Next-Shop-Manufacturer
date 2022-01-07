@@ -1,4 +1,3 @@
-import { Auth0Service } from '../auth/auth0.service';
 import { RouterModule } from '@angular/router';
 import { AngularMaterialModule } from './../angular-material.module';
 import { CommonModule } from '@angular/common';
@@ -10,6 +9,7 @@ import { ResMesComponent } from './dialog/res-mes/res-mes.component';
 import { EmailVerificationComponent } from './dialog/email-verification/email-verification.component';
 import { LoaderComponent } from './loader/loader.component';
 import { ProductCardSmallComponent } from './product/product-card-small/product-card-small.component';
+import { ProductCardLongComponent } from './product/product-card-long/product-card-long.component';
 
 @NgModule({
   imports: [CommonModule, AngularMaterialModule, RouterModule],
@@ -21,6 +21,7 @@ import { ProductCardSmallComponent } from './product/product-card-small/product-
     EmailVerificationComponent,
     LoaderComponent,
     ProductCardSmallComponent,
+    ProductCardLongComponent,
   ],
   providers: [],
   exports: [
@@ -31,6 +32,7 @@ import { ProductCardSmallComponent } from './product/product-card-small/product-
     EmailVerificationComponent,
     LoaderComponent,
     ProductCardSmallComponent,
+    ProductCardLongComponent,
   ],
 })
 export class SharedModule {}

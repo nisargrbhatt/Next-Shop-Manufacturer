@@ -173,7 +173,14 @@
   <div class="hero-preview">
     <app-product-card-small
       [productDetails]="productCardSmallDetails"
+      [cardHeight]="32"
+      [cardWidth]="25"
+      actionName="Wishlist"
+      actionIcon="favorite"
     ></app-product-card-small>
+    <app-product-card-long
+      [productDetails]="productCardLongDetails"
+    ></app-product-card-long>
   </div>
 </div>
 <app-loader *ngIf="pageLoading"></app-loader>

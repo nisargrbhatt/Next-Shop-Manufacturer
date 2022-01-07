@@ -62,22 +62,32 @@ export class ProductService {
       .toPromise();
   }
 
-  async getProductWithCategoryByManufacturerId(): Promise<GetProductWithCategoryByManufacturerIdResponse> {
+  async getProductWithCategoryByManufacturerId(
+    currentPage: number,
+    pageSize: number,
+    search?: string,
+  ): Promise<GetProductWithCategoryByManufacturerIdResponse> {
+    const searchFilter = search.replace(new RegExp('[.?/=#]'), '');
     return await this.httpService
       .get<GetProductWithCategoryByManufacturerIdResponse>(
         BACKEND_URL +
           basicAPIURIs.getProductWithCategoryByManufacturerId +
-          `/?manufacturerId=${this.authService.ProfileClaims.userId}`,
+          `/?manufacturerId=${this.authService.ProfileClaims.userId}&currentPage=${currentPage}&pageSize=${pageSize}&search=${searchFilter}`,
       )
       .toPromise();
   }
 
-  async getProductWithCategoryByManufacturerIdApprovalPending(): Promise<GetProductWithCategoryByManufacturerIdApprovalPendingResponse> {
+  async getProductWithCategoryByManufacturerIdApprovalPending(
+    currentPage: number,
+    pageSize: number,
+    search?: string,
+  ): Promise<GetProductWithCategoryByManufacturerIdApprovalPendingResponse> {
+    const searchFilter = search.replace(new RegExp('[.?/=#]'), '');
     return await this.httpService
       .get<GetProductWithCategoryByManufacturerIdApprovalPendingResponse>(
         BACKEND_URL +
           basicAPIURIs.getProductWithCategoryByManufacturerIdApprovalPending +
-          `/?manufacturerId=${this.authService.ProfileClaims.userId}`,
+          `/?manufacturerId=${this.authService.ProfileClaims.userId}&currentPage=${currentPage}&pageSize=${pageSize}&search=${searchFilter}`,
       )
       .toPromise();
   }

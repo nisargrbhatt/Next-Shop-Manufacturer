@@ -1,9 +1,12 @@
-<div class="hero">
+<div
+  class="hero"
+  [ngStyle]="{ height: cardHeight + 'rem', width: cardWidth + 'rem' }"
+>
   <div class="product-image">
     <img
       [src]="
-        productDetails.images.length > 0
-          ? productDetails.images[0].url
+        productDetails.image
+          ? productDetails.image
           : 'assets/statics/product-image.jpg'
       "
       [alt]="productDetails.name"
@@ -25,11 +28,15 @@
     </div>
     <div class="reviews">123 Reviews</div>
   </div>
-  <div class="product-actions">
-    <button class="wishlist-btn" type="button">
-      <div class="wishlist-btn-text">Wishlist</div>
-      <div class="wishlist-btn-icon">
-        <mat-icon>favorite</mat-icon>
+  <div class="product-actions" *ngIf="actionName">
+    <button
+      class="wishlist-btn"
+      type="button"
+      (click)="actionClick.emit(productDetails?.id)"
+    >
+      <div class="wishlist-btn-text">{{ actionName | titlecase }}</div>
+      <div class="wishlist-btn-icon" *ngIf="actionIcon">
+        <mat-icon>{{ actionIcon }}</mat-icon>
       </div>
     </button>
   </div>
