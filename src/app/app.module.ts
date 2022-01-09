@@ -13,6 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { Auth0Service } from './auth/auth0.service';
 import { Error404Component } from './error404/error404.component';
+
 @NgModule({
   declarations: [AppComponent, Error404Component],
   imports: [
@@ -25,6 +26,7 @@ import { Error404Component } from './error404/error404.component';
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
+
     AuthModule.forRoot({
       // The domain and clientId were configured in the previous chapter
       domain: environment.auth0Domain,

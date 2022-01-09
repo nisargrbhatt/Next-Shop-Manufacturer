@@ -82,7 +82,7 @@ export const secureAPIURIs = {
   updateCategory: { url: '/category/updateCategory', hasQuery: false },
   // Image Controller
   addImage: { url: '/image/addImage', hasQuery: false },
-  deleteImage: { url: '/image/deleteImage', hasQuery: false },
+  deleteImage: { url: '/image/deleteImage', hasQuery: true },
   // KYC Controller
   createKycApproval: { url: '/kyc/createKycApproval', hasQuery: false },
   findAllApprovalPending: {

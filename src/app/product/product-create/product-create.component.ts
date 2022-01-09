@@ -212,6 +212,7 @@ export class ProductCreateComponent implements OnInit {
     if (this.productForm.invalid) {
       return;
     }
+
     this.pageLoading = true;
 
     const createProductData = new FormData();

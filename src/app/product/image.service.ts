@@ -26,7 +26,7 @@ export class ImageService {
   async addImage(addImageData: AddImageData | any): Promise<AddImageResponse> {
     return await this.httpService
       .post<AddImageResponse>(
-        BACKEND_URL + secureAPIURIs.addImage,
+        BACKEND_URL + secureAPIURIs.addImage.url,
         addImageData,
       )
       .toPromise();
@@ -35,7 +35,7 @@ export class ImageService {
   async deleteImage(imageId: string): Promise<DeleteImageResponse> {
     return await this.httpService
       .delete<DeleteImageResponse>(
-        BACKEND_URL + secureAPIURIs.deleteImage + `/?imageId=${imageId}`,
+        BACKEND_URL + secureAPIURIs.deleteImage.url + `/?imageId=${imageId}`,
       )
       .toPromise();
   }

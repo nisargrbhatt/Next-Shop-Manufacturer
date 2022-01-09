@@ -1,3 +1,4 @@
+import { ProductOpenComponent } from './product-open/product-open.component';
 import { ProductUpdateComponent } from './product-update/product-update.component';
 import { ProductCreateComponent } from './product-create/product-create.component';
 import { ProductListComponent } from './product-list/product-list.component';
@@ -19,6 +20,11 @@ const routes: Routes = [
   {
     path: 'update/:id',
     component: ProductUpdateComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: ':id',
+    component: ProductOpenComponent,
     canActivate: [AuthGuard],
   },
 ];

@@ -8,12 +8,14 @@ import { RouterModule } from '@angular/router';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductCreateComponent } from './product-create/product-create.component';
 import { ProductUpdateComponent } from './product-update/product-update.component';
-
+import { ProductOpenComponent } from './product-open/product-open.component';
+import { NgxViewerModule } from 'ngx-viewer';
 @NgModule({
   declarations: [
     ProductListComponent,
     ProductCreateComponent,
     ProductUpdateComponent,
+    ProductOpenComponent,
   ],
   imports: [
     CommonModule,
@@ -21,6 +23,7 @@ import { ProductUpdateComponent } from './product-update/product-update.componen
     AngularMaterialModule,
     SharedModule,
     RouterModule,
+    NgxViewerModule,
   ],
 })
 export class ProductModule {}

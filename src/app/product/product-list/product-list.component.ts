@@ -58,7 +58,7 @@ export class ProductListComponent implements OnInit {
   }
 
   onProductClick(id: string): void {
-    console.log(id);
+    this.router.navigate(['/product/' + id]);
   }
 
   getProductCardDetails(product: any): ProductCardSmallDetails {

@@ -72,7 +72,11 @@ export class ProductService {
       .get<GetProductWithCategoryByManufacturerIdResponse>(
         BACKEND_URL +
           basicAPIURIs.getProductWithCategoryByManufacturerId +
-          `/?manufacturerId=${this.authService.ProfileClaims.userId}&currentPage=${currentPage}&pageSize=${pageSize}&search=${searchFilter}`,
+          `/?manufacturerId=${
+            this.authService.ProfileClaims.userId
+          }&currentPage=${currentPage}&pageSize=${pageSize}&search=${encodeURI(
+            searchFilter,
+          )}`,
       )
       .toPromise();
   }
@@ -87,7 +91,11 @@ export class ProductService {
       .get<GetProductWithCategoryByManufacturerIdApprovalPendingResponse>(
         BACKEND_URL +
           basicAPIURIs.getProductWithCategoryByManufacturerIdApprovalPending +
-          `/?manufacturerId=${this.authService.ProfileClaims.userId}&currentPage=${currentPage}&pageSize=${pageSize}&search=${searchFilter}`,
+          `/?manufacturerId=${
+            this.authService.ProfileClaims.userId
+          }&currentPage=${currentPage}&pageSize=${pageSize}&search=${encodeURI(
+            searchFilter,
+          )}`,
       )
       .toPromise();
   }

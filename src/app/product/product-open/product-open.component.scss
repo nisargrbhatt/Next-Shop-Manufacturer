@@ -1,0 +1,128 @@
+.hero {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-first {
+  display: flex;
+  margin: 0.5rem 1rem;
+}
+
+.first-image {
+  flex: 40%;
+  display: flex;
+  flex-wrap: wrap;
+  img {
+    object-fit: cover;
+    max-width: 10rem;
+    max-height: 10rem;
+  }
+}
+
+.first-details {
+  flex: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1rem;
+}
+
+.product-name {
+  font-size: x-large;
+  font-family: 'Fira Code';
+  font-weight: 600;
+  margin: 1rem;
+}
+
+.product-category {
+  font-size: large;
+  font-family: 'Fira Code';
+  font-weight: 500;
+  margin: 0.5rem;
+}
+
+.product-approval-details {
+  p {
+    font-size: medium;
+    font-weight: 550;
+    margin: 0.5rem;
+  }
+
+  .pending-count-txt {
+    color: grey;
+  }
+
+  .pending-txt {
+    color: rgb(13, 228, 228);
+    mat-icon {
+      color: rgb(13, 228, 228);
+    }
+  }
+  .approved-txt {
+    color: green;
+    mat-icon {
+      color: green;
+    }
+  }
+  .not-approved-txt {
+    color: red;
+    mat-icon {
+      color: red;
+    }
+  }
+}
+
+.hero-second {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+
+  justify-content: flex-start;
+  align-items: center;
+
+  .product-description {
+    color: black;
+    font-family: 'Fira Code' monospace;
+    font-size: medium;
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+    margin: 0.25rem;
+  }
+
+  .product-small-description {
+    color: black;
+    font-family: 'Fira Code' monospace;
+    font-size: medium;
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+    margin: 0.25rem;
+  }
+}
+.hero-third {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  .product-specifications {
+    display: block;
+    .product-specification {
+      display: flex;
+      margin: 1rem;
+      .specification-label {
+        font-size: small;
+        font-weight: 400;
+        color: gray;
+        margin: 0.25rem;
+      }
+      .specification-value {
+        font-size: small;
+        font-weight: 400;
+        color: black;
+        margin: 0.25rem;
+      }
+    }
+  }
+}

@@ -10,6 +10,7 @@ import { EmailVerificationComponent } from './dialog/email-verification/email-ve
 import { LoaderComponent } from './loader/loader.component';
 import { ProductCardSmallComponent } from './product/product-card-small/product-card-small.component';
 import { ProductCardLongComponent } from './product/product-card-long/product-card-long.component';
+import { ProductImageUpdateComponent } from './product/product-image-update/product-image-update.component';
 
 @NgModule({
   imports: [CommonModule, AngularMaterialModule, RouterModule],
@@ -22,6 +23,7 @@ import { ProductCardLongComponent } from './product/product-card-long/product-ca
     LoaderComponent,
     ProductCardSmallComponent,
     ProductCardLongComponent,
+    ProductImageUpdateComponent,
   ],
   providers: [],
   exports: [
@@ -33,6 +35,7 @@ import { ProductCardLongComponent } from './product/product-card-long/product-ca
     LoaderComponent,
     ProductCardSmallComponent,
     ProductCardLongComponent,
+    ProductImageUpdateComponent,
   ],
 })
 export class SharedModule {}

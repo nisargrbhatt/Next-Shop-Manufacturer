@@ -1,3 +1,5 @@
+import { Row } from './category.interface';
+
 export interface ErrorData {
   code: string;
   message: string;
@@ -12,11 +14,11 @@ export interface DialogData {
 
 export interface GetProductWithCategoryByManufacturerIdResponseData {
   count: number;
-  rows: any[];
+  rows: ProductData[];
 }
 export interface GetProductWithCategoryByManufacturerIdApprovalPendingResponseData {
   count: number;
-  rows: any[];
+  rows: ProductData[];
 }
 
 export interface CreateProductResponse {
@@ -38,7 +40,7 @@ export interface GetProductResponse {
   valid: boolean;
   error?: ErrorData;
   dialog?: DialogData;
-  data?: any;
+  data?: ProductData;
 }
 
 export interface GetProductWithCategoryByManufacturerIdResponse {
@@ -78,8 +80,50 @@ export interface UpdateProductData {
   specification?: string;
   categoryId?: string;
   productId?: string;
+  small_description?: string;
 }
 
 export interface RenewTheApprovalForProductData {
   productId: string;
+}
+
+export interface ProductData {
+  id: string;
+  name: string;
+  description: string;
+  small_description: string;
+  specification: string | any;
+  slug: string;
+  decline_count: number;
+  decline_reason: string;
+  approval_status: boolean;
+  productApproved: boolean;
+  categoryId: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+  user: User;
+  images: Image[];
+  category?: Row;
+}
+
+export interface Image {
+  id: string;
+  name: string;
+  url: string;
+  productId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  contact_no: string;
+  role: string;
+  email_verified: boolean;
+  merchant_or_manufacturer_verified: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
