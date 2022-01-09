@@ -1,0 +1,43 @@
+<div
+  class="hero"
+  [ngStyle]="{ height: cardHeight + 'rem', width: cardWidth + 'rem' }"
+>
+  <div class="product-image">
+    <img
+      [src]="
+        productDetails.image
+          ? productDetails.image
+          : 'assets/statics/product-image.jpg'
+      "
+      [alt]="productDetails.name"
+    />
+  </div>
+  <div class="product-name">
+    {{ productDetails.name | titlecase }}
+  </div>
+  <div class="product-category">
+    {{ productDetails.category | titlecase }}
+  </div>
+  <div class="product-ratings">
+    <div class="ratings">
+      <div class="star-yellow"></div>
+      <div class="star-yellow"></div>
+      <div class="star-yellow"></div>
+      <div class="star-grey"></div>
+      <div class="star-grey"></div>
+    </div>
+    <div class="reviews">123 Reviews</div>
+  </div>
+  <div class="product-actions" *ngIf="actionName">
+    <button
+      class="wishlist-btn"
+      type="button"
+      (click)="actionClick.emit(productDetails?.id)"
+    >
+      <div class="wishlist-btn-text">{{ actionName | titlecase }}</div>
+      <div class="wishlist-btn-icon" *ngIf="actionIcon">
+        <mat-icon>{{ actionIcon }}</mat-icon>
+      </div>
+    </button>
+  </div>
+</div>

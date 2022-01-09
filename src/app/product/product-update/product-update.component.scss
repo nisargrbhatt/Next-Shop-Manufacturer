@@ -1,0 +1,57 @@
+.hero {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.hero-form {
+  flex: 50%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 85vh;
+
+  mat-form-field {
+    display: block;
+    margin: 0.5rem;
+  }
+  .specification-form-group {
+    display: block;
+
+    .specification-form-group-form {
+      display: flex;
+      align-items: center;
+      align-content: center;
+    }
+  }
+  .add-specification-btn {
+    margin: 0.5rem;
+  }
+
+  .image-pick-button {
+    input[type='file'] {
+      visibility: hidden;
+    }
+  }
+  .image-pick-button-btn {
+    display: block;
+    margin: 0.5rem;
+  }
+
+  .product-form-submit-btn {
+    display: flex;
+    justify-content: center;
+    margin: 0.5rem;
+  }
+}
+
+.hero-preview {
+  flex: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 85vh;
+}

@@ -1,0 +1,33 @@
+<div class="hero">
+  <div class="hero-image">
+    <img
+      [src]="
+        productDetails.image
+          ? productDetails.image
+          : 'assets/statics/product-image.jpg'
+      "
+      [alt]="productDetails.name"
+    />
+  </div>
+  <div class="hero-details">
+    <div class="product-name">
+      {{ productDetails.name }}
+    </div>
+    <div class="product-category">
+      {{ productDetails.category }}
+    </div>
+    <div class="product-ratings">
+      <div class="ratings">
+        <div class="star-yellow"></div>
+        <div class="star-yellow"></div>
+        <div class="star-yellow"></div>
+        <div class="star-grey"></div>
+        <div class="star-grey"></div>
+      </div>
+      <div class="reviews">123 Reviews</div>
+    </div>
+    <div class="product-small-description">
+      {{ productDetails.small_description }}
+    </div>
+  </div>
+</div>

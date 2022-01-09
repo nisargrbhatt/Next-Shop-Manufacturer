@@ -1,0 +1,97 @@
+<div class="hero" *ngIf="!pageLoading">
+  <div class="hero-first">
+    <div class="first-image" ngxViewer>
+      <img
+        *ngFor="let image of productDetails.images"
+        [src]="image.url"
+        [alt]="image.name"
+      />
+    </div>
+    <div class="first-details">
+      <div class="product-name">
+        {{ productDetails.name }}
+      </div>
+      <div class="product-category">
+        {{ productDetails.category.name }}
+      </div>
+
+      <div class="product-approval-details">
+        <p class="pending-count-txt" *ngIf="productDetails.decline_count > 0">
+          Approval declined {{ productDetails.decline_count }} times
+        </p>
+
+        <p class="pending-txt" *ngIf="productDetails.approval_status === false">
+          Approval Pending <mat-icon>pending_actions</mat-icon>
+        </p>
+        <p class="approved-txt" *ngIf="productDetails.productApproved === true">
+          Approved <mat-icon>correct</mat-icon>
+        </p>
+        <p
+          class="not-approved-txt"
+          *ngIf="
+            productDetails.approval_status === true &&
+            productDetails.productApproved === false
+          "
+        >
+          Not Approved <mat-icon>cancel</mat-icon>
+        </p>
+      </div>
+      <div class="first-actions">
+        <button
+          mat-raised-button
+          color="primary"
+          class="product-update-btn"
+          [routerLink]="['/product/update/', productId]"
+          *ngIf="productDetails.approval_status === false"
+        >
+          Update
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          class="product-image-update-btn"
+          *ngIf="productDetails.approval_status === false"
+          (click)="onImageUpdate()"
+        >
+          Update Images
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          class="product-approval-btn"
+          *ngIf="
+            productDetails.productApproved === false &&
+            productDetails.approval_status === true
+          "
+          (click)="onApprovalRenew()"
+        >
+          Renew Approval
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="hero-second">
+    <div class="product-small-description">
+      {{ productDetails.small_description }}
+    </div>
+    <div class="product-description">
+      {{ productDetails.description }}
+    </div>
+  </div>
+  <div class="hero-third">
+    <div class="product-specifications">
+      <div
+        class="product-specification"
+        *ngFor="let specification of productDetails.specification"
+      >
+        <div class="specification-label">
+          {{ specification.label }}
+        </div>
+        <div class="specification-value">
+          {{ specification.value }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loader *ngIf="pageLoading"></app-loader>

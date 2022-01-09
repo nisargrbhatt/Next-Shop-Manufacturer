@@ -1,0 +1,77 @@
+<div mat-dialog-title>
+  <h2>{{ dialogData.name }}'s Images</h2>
+</div>
+<div mat-dialog-content>
+  <div class="images-product" *ngIf="!pageLoading">
+    <div class="image-product" *ngFor="let imageObj of imagesDetails.rows">
+      <img [src]="imageObj.url" [alt]="imageObj.name" />
+      <button
+        type="button"
+        mat-icon-button
+        (click)="deleteImage(imageObj.id)"
+        color="warn"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <form [formGroup]="imageForm" (submit)="onSubmit()" *ngIf="!pageLoading">
+    <div>
+      <input
+        type="file"
+        id="files"
+        multiple
+        (change)="detectFiles($event)"
+        accept="image/x-png,image/jpeg"
+        #filePicker
+      />
+      <button mat-stroked-button type="button" (click)="filePicker.click()">
+        Pick Images
+      </button>
+    </div>
+
+    <div class="images-preview mt-2" *ngIf="image.length">
+      <div class="row">
+        <div
+          class="col-md-6 col-lg-3 col-xl-2"
+          formArrayName="image"
+          *ngFor="let photo of image.controls; let i = index"
+        >
+          <div class="card mb-3" [formGroupName]="i">
+            <button
+              type="button"
+              (click)="removeImage(i)"
+              class="btn btn-danger remove-btn"
+            >
+              x
+            </button>
+            <img
+              [src]="photo.controls.url.value"
+              class="card-img-top"
+              alt="Image Preview"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="imageForm.invalid"
+    >
+      Add Images
+    </button>
+  </form>
+  <app-loader *ngIf="pageLoading"></app-loader>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="imagesChanges" color="accent">
+    Ok
+  </button>
+  <button [mat-dialog-close]="imagesChanges" mat-raised-button color="warn">
+    Cancel
+  </button>
+</div>

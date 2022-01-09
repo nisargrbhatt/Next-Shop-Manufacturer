@@ -1,0 +1,143 @@
+<div class="hero" *ngIf="!pageLoading">
+  <div class="hero-form">
+    <form [formGroup]="productForm" (submit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="name"
+          placeholder="Enter Product Name"
+          name="name"
+        />
+        <mat-error *ngIf="productForm.get('name').hasError('required')"
+          >Name is required</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          formControlName="description"
+          name="description"
+          placeholder="Enter the Product Description"
+          rows="3"
+          cols="40"
+        ></textarea>
+        <mat-error *ngIf="productForm.get('description').hasError('required')"
+          >Description is required</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Small Description</mat-label>
+        <textarea
+          matInput
+          formControlName="small_description"
+          name="small_description"
+          placeholder="Enter the Product Abstract Description"
+          rows="3"
+          cols="40"
+        ></textarea>
+        <mat-error
+          *ngIf="productForm.get('small_description').hasError('required')"
+          >Small Description is required</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="categoryId">
+          <mat-option
+            *ngFor="let category of categories.rows"
+            [value]="category.id"
+          >
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div
+        class="specification-form-group"
+        formArrayName="specification"
+        *ngFor="let item of specification.controls; let i = index"
+      >
+        <div [formGroupName]="i" class="specification-form-group-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Label</mat-label>
+            <input
+              matInput
+              type="text"
+              name="label"
+              formControlName="label"
+              placeholder="Specification Name"
+            />
+            <mat-error
+              *ngIf="
+                specification.controls[i].get('label').hasError('required')
+              "
+              >Label is required</mat-error
+            >
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Value</mat-label>
+            <input
+              matInput
+              type="text"
+              name="value"
+              formControlName="value"
+              placeholder="Specification Value"
+            />
+            <mat-error
+              *ngIf="
+                specification.controls[i].get('value').hasError('required')
+              "
+              >Value is required</mat-error
+            >
+          </mat-form-field>
+          <button
+            type="button"
+            (click)="removeSpecification(i)"
+            mat-icon-button
+            color="warn"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+      <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        class="add-specification-btn"
+        (click)="createSpecification()"
+      >
+        Add Specifications
+      </button>
+
+      <div class="product-form-submit-btn">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="productForm.invalid"
+          type="submit"
+        >
+          Update Product
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="hero-preview">
+    <app-product-card-small
+      [productDetails]="productCardSmallDetails"
+      [cardHeight]="32"
+      [cardWidth]="25"
+      actionName="Wishlist"
+      actionIcon="favorite"
+    ></app-product-card-small>
+    <app-product-card-long
+      [productDetails]="productCardLongDetails"
+    ></app-product-card-long>
+  </div>
+</div>
+<app-loader *ngIf="pageLoading"></app-loader>
