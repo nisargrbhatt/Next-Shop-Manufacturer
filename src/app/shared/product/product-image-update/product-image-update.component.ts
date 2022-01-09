@@ -51,7 +51,7 @@ export class ProductImageUpdateComponent implements OnInit {
     this.getImageByProductId();
   }
 
-  async getImageByProductId() {
+  async getImageByProductId(): Promise<void> {
     this.pageLoading = true;
     let getImageByProductIdResponse: GetImageByProductIdResponse;
     try {
@@ -181,7 +181,7 @@ export class ProductImageUpdateComponent implements OnInit {
     this.pageLoading = true;
     this.imagesChanges = true;
     const addImageData = new FormData();
-    for (let file of this.imageForm.value.image) {
+    for (const file of this.imageForm.value.image) {
       const fileObj: File = file.file;
       addImageData.append('image', fileObj, this.dialogData.name);
     }

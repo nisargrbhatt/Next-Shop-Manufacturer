@@ -193,7 +193,7 @@ export class ProductUpdateComponent implements OnInit {
     this.productForm
       .get('description')
       .setValue(this.productDetails.description);
-    for (let specificationItem of JSON.parse(
+    for (const specificationItem of JSON.parse(
       this.productDetails.specification,
     )) {
       this.createSpecification(
@@ -211,7 +211,7 @@ export class ProductUpdateComponent implements OnInit {
         : this.productForm.value.name.slice(0, 30) + '...'
       : 'Product Name';
     const productCardSmallDetails: ProductCardSmallDetails = {
-      name: name,
+      name,
       category:
         this.categories.rows.find((category) => {
           return category.id === this.productForm.value.categoryId;
@@ -227,7 +227,7 @@ export class ProductUpdateComponent implements OnInit {
         ? this.productForm.value.name
         : this.productForm.value.name.slice(0, 30) + '...'
       : 'Product Name';
-    const small_description = this.productForm.value.small_description
+    const smallDescription = this.productForm.value.small_description
       ? this.productForm.value.small_description.length < 103
         ? this.productForm.value.small_description
         : this.productForm.value.small_description.slice(0, 100) + '...'
@@ -236,13 +236,13 @@ export class ProductUpdateComponent implements OnInit {
           100,
         ) + '...';
     const productCardLongDetails: ProductCardLongDetails = {
-      name: name,
+      name,
       category:
         this.categories.rows.find((category) => {
           return category.id === this.productForm.value.categoryId;
         })?.name || 'Category',
       image: this.productDetails.images[0].url,
-      small_description: small_description,
+      small_description: smallDescription,
     };
     return productCardLongDetails;
   }
