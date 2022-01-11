@@ -78,7 +78,7 @@ export const secureAPIURIs = {
   approveProduct: { url: '/product/approveProduct', hasQuery: false },
   renewTheApprovalForProduct: {
     url: '/product/renewTheApprovalForProduct',
-    hasQuery: true,
+    hasQuery: false,
   },
   // Category Controller
   addCategory: { url: '/category/addCategory', hasQuery: false },

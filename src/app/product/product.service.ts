@@ -54,6 +54,7 @@ export class ProductService {
         this.snackbarService.open(response.message, 'Ok', {
           duration: 2 * 1000,
         });
+        this.router.navigate(['/product']);
       });
   }
 
