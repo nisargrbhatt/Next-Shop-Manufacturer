@@ -42,7 +42,11 @@
           color="primary"
           class="product-update-btn"
           [routerLink]="['/product/update/', productId]"
-          *ngIf="productDetails.approval_status === false"
+          *ngIf="
+            productDetails.approval_status === false ||
+            (productDetails.approval_status === true &&
+              productDetails.productApproved === false)
+          "
         >
           Update
         </button>
@@ -50,7 +54,11 @@
           mat-raised-button
           color="primary"
           class="product-image-update-btn"
-          *ngIf="productDetails.approval_status === false"
+          *ngIf="
+            productDetails.approval_status === false ||
+            (productDetails.approval_status === true &&
+              productDetails.productApproved === false)
+          "
           (click)="onImageUpdate()"
         >
           Update Images

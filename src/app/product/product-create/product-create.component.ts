@@ -173,6 +173,10 @@ export class ProductCreateComponent implements OnInit, OnDestroy {
       'specification',
       JSON.stringify(this.productForm.value.specification),
     );
+    createProductData.append(
+      'small_description',
+      this.productForm.value.small_description,
+    );
     for (const files of this.productForm.value.image) {
       const fileObj: File = files.file;
       createProductData.append('image', fileObj, this.productForm.value.name);
