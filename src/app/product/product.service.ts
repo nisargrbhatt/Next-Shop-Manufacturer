@@ -1,16 +1,25 @@
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedService } from './../shared/shared.service';
 import {
   CreateProductData,
   CreateProductResponse,
   GetProductResponse,
   GetProductWithCategoryByManufacturerIdApprovalPendingResponse,
   GetProductWithCategoryByManufacturerIdResponse,
+  ProductData,
   RenewTheApprovalForProductData,
   RenewTheApprovalForProductResponse,
   UpdateProductData,
   UpdateProductResponse,
 } from './product.interface';
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpResponse,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, map } from 'rxjs/operators';
 
 import {
   environment,
@@ -18,6 +27,7 @@ import {
   basicAPIURIs,
 } from 'src/environments/environment';
 import { Auth0Service } from '../auth/auth0.service';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 const BACKEND_URL = environment.production
   ? environment.backend_url_secure
@@ -30,45 +40,52 @@ export class ProductService {
   constructor(
     private httpService: HttpClient,
     private authService: Auth0Service,
+    private snackbarService: MatSnackBar,
+    private router: Router,
   ) {}
 
-  async createProduct(
-    createProductData: CreateProductData | any,
-  ): Promise<CreateProductResponse> {
-    return this.httpService
+  createProduct(createProductData: CreateProductData | any): void {
+    this.httpService
       .post<CreateProductResponse>(
         BACKEND_URL + secureAPIURIs.createProduct.url,
         createProductData,
       )
-      .toPromise();
+      .subscribe((response) => {
+        this.snackbarService.open(response.message, 'Ok', {
+          duration: 2 * 1000,
+        });
+      });
   }
 
-  async updateProduct(
-    updateProductData: UpdateProductData,
-  ): Promise<UpdateProductResponse> {
-    return await this.httpService
+  updateProduct(updateProductData: UpdateProductData): void {
+    this.httpService
       .put<UpdateProductResponse>(
         BACKEND_URL + secureAPIURIs.updateProduct.url,
         updateProductData,
       )
-      .toPromise();
+      .subscribe((response) => {
+        this.snackbarService.open(response.message, 'Ok', {
+          duration: 2 * 1000,
+        });
+        this.router.navigate(['/product/', updateProductData.productId]);
+      });
   }
 
-  async getProduct(productId: string): Promise<GetProductResponse> {
-    return await this.httpService
+  getProduct(productId: string): Observable<any> {
+    return this.httpService
       .get<GetProductResponse>(
         BACKEND_URL + basicAPIURIs.getProduct + `/?productId=${productId}`,
       )
-      .toPromise();
+      .pipe(map((response) => response.data));
   }
 
-  async getProductWithCategoryByManufacturerId(
+  getProductWithCategoryByManufacturerId(
     currentPage: number,
     pageSize: number,
     search?: string,
-  ): Promise<GetProductWithCategoryByManufacturerIdResponse> {
+  ): Observable<any> {
     const searchFilter = search.replace(new RegExp('[.?/=#]'), '');
-    return await this.httpService
+    return this.httpService
       .get<GetProductWithCategoryByManufacturerIdResponse>(
         BACKEND_URL +
           basicAPIURIs.getProductWithCategoryByManufacturerId +
@@ -78,16 +95,16 @@ export class ProductService {
             searchFilter,
           )}`,
       )
-      .toPromise();
+      .pipe(map((response) => response.data));
   }
 
-  async getProductWithCategoryByManufacturerIdApprovalPending(
+  getProductWithCategoryByManufacturerIdApprovalPending(
     currentPage: number,
     pageSize: number,
     search?: string,
-  ): Promise<GetProductWithCategoryByManufacturerIdApprovalPendingResponse> {
+  ): Observable<any> {
     const searchFilter = search.replace(new RegExp('[.?/=#]'), '');
-    return await this.httpService
+    return this.httpService
       .get<GetProductWithCategoryByManufacturerIdApprovalPendingResponse>(
         BACKEND_URL +
           basicAPIURIs.getProductWithCategoryByManufacturerIdApprovalPending +
@@ -97,17 +114,45 @@ export class ProductService {
             searchFilter,
           )}`,
       )
-      .toPromise();
+      .pipe(map((response) => response.data));
   }
 
-  async renewTheApprovalForProduct(
+  renewTheApprovalForProduct(
     renewTheApprovalForProductData: RenewTheApprovalForProductData,
-  ): Promise<RenewTheApprovalForProductResponse> {
-    return await this.httpService
-      .patch<RenewTheApprovalForProductResponse>(
-        BACKEND_URL + secureAPIURIs.renewTheApprovalForProduct.url,
-        renewTheApprovalForProductData,
+  ): Observable<any> {
+    return this.httpService.patch<RenewTheApprovalForProductResponse>(
+      BACKEND_URL + secureAPIURIs.renewTheApprovalForProduct.url,
+      renewTheApprovalForProductData,
+    );
+  }
+
+  getAllProductsWithSearch(
+    currentPage: number,
+    pageSize: number,
+    search?: string,
+  ): Observable<any> {
+    console.log('Here');
+
+    return this.httpService
+      .get<GetProductWithCategoryByManufacturerIdApprovalPendingResponse>(
+        BACKEND_URL +
+          basicAPIURIs.getAllProductWithSearchByManufacturerId +
+          `/?manufacturerId=${
+            this.authService.ProfileClaims.userId
+          }&currentPage=${currentPage}&pageSize=${pageSize}&search=${encodeURI(
+            search,
+          )}`,
       )
-      .toPromise();
+      .pipe(map((response) => response.data));
+  }
+
+  getAllProducts(currentPage: number, pageSize: number): Observable<any> {
+    return this.httpService
+      .get<GetProductWithCategoryByManufacturerIdApprovalPendingResponse>(
+        BACKEND_URL +
+          basicAPIURIs.getAllProductsByManufacturerId +
+          `/?manufacturerId=${this.authService.ProfileClaims.userId}&currentPage=${currentPage}&pageSize=${pageSize}`,
+      )
+      .pipe(map((response) => response.data));
   }
 }

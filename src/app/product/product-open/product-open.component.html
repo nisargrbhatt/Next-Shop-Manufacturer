@@ -1,6 +1,6 @@
-<div class="hero" *ngIf="!pageLoading">
+<div class="hero" *ngIf="productDetails">
   <div class="hero-first">
-    <div class="first-image" ngxViewer>
+    <div class="first-image" ngxViewer *ngIf="productDetails.images">
       <img
         *ngFor="let image of productDetails.images"
         [src]="image.url"
@@ -8,15 +8,15 @@
       />
     </div>
     <div class="first-details">
-      <div class="product-name">
+      <div class="product-name" *ngIf="productDetails.name">
         {{ productDetails.name }}
       </div>
-      <div class="product-category">
+      <div class="product-category" *ngIf="productDetails.category">
         {{ productDetails.category.name }}
       </div>
 
       <div class="product-approval-details">
-        <p class="pending-count-txt" *ngIf="productDetails.decline_count > 0">
+        <p class="pending-count-txt" *ngIf="productDetails.decline_count">
           Approval declined {{ productDetails.decline_count }} times
         </p>
 
@@ -94,4 +94,4 @@
     </div>
   </div>
 </div>
-<app-loader *ngIf="pageLoading"></app-loader>
+<app-loader *ngIf="!productDetails"></app-loader>

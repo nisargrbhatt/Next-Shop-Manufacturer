@@ -1,19 +1,14 @@
 import { ProductImageUpdateComponent } from './../../shared/product/product-image-update/product-image-update.component';
-import {
-  GetProductResponse,
-  RenewTheApprovalForProductData,
-  RenewTheApprovalForProductResponse,
-} from './../product.interface';
+import { RenewTheApprovalForProductData } from './../product.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CategoryService } from '../category.service';
+
 import { ProductService } from '../product.service';
 import { ProductData } from '../product.interface';
-import { ErrorComponent } from 'src/app/shared/dialog/error/error.component';
-import { ResMesComponent } from 'src/app/shared/dialog/res-mes/res-mes.component';
-import { environment } from 'src/environments/environment';
+
+import { distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-open',
@@ -37,58 +32,14 @@ export class ProductOpenComponent implements OnInit {
     this.pageLoading = true;
     if (this.route.snapshot.params.id) {
       this.productId = this.route.snapshot.params.id;
-    } else {
-      this.router.navigate(['/product']);
     }
-    this.getProductData();
-  }
 
-  async getProductData(): Promise<void> {
-    this.pageLoading = true;
-
-    let getProductResponse: GetProductResponse;
-    try {
-      getProductResponse = await this.productService.getProduct(this.productId);
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        getProductResponse = {
-          ...error.error,
-        };
-      }
-    }
-    if (getProductResponse.valid) {
+    this.productService.getProduct(this.productId).subscribe((data) => {
       this.productDetails = {
-        ...getProductResponse.data,
-        specification: JSON.parse(getProductResponse.data.specification),
+        ...data,
+        specification: JSON.parse(data.specification),
       };
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in getProductResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: getProductResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in getProductResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: getProductResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/product']);
-    }
-
-    this.pageLoading = false;
+    });
   }
 
   async onApprovalRenew(): Promise<void> {
@@ -96,53 +47,17 @@ export class ProductOpenComponent implements OnInit {
       productId: this.productId,
     };
 
-    let renewTheApprovalForProductResponse: RenewTheApprovalForProductResponse;
-    try {
-      renewTheApprovalForProductResponse =
-        await this.productService.renewTheApprovalForProduct(
-          renewTheApprovalForProductData,
-        );
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        renewTheApprovalForProductResponse = {
-          ...error.error,
-        };
-      }
-    }
-    if (renewTheApprovalForProductResponse.valid) {
-      this.snackbarService.open('Product approval Renewed', 'Ok', {
-        duration: 2 * 1000,
-      });
-      this.getProductData();
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in renewTheApprovalForProductResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: renewTheApprovalForProductResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
+    this.productService
+      .renewTheApprovalForProduct(renewTheApprovalForProductData)
+      .subscribe((response) => {
+        this.snackbarService.open('Product approval Renewed', 'Ok', {
+          duration: 2 * 1000,
         });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in renewTheApprovalForProductResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: renewTheApprovalForProductResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/product']);
-    }
+        this.router.navigate(['/product']);
+      });
   }
 
-  async onImageUpdate(): Promise<void> {
+  onImageUpdate(): void {
     const imageDialogRef = this.dialogService.open(
       ProductImageUpdateComponent,
       {
@@ -151,11 +66,21 @@ export class ProductOpenComponent implements OnInit {
         hasBackdrop: true,
       },
     );
-    const changeDetected: boolean = await imageDialogRef
+    imageDialogRef
       .afterClosed()
-      .toPromise();
-    if (changeDetected) {
-      this.getProductData();
-    }
+      .pipe(
+        distinctUntilChanged(),
+        switchMap((changeDetected: boolean) => {
+          if (changeDetected) {
+            return this.productService.getProduct(this.productId);
+          }
+        }),
+      )
+      .subscribe((data) => {
+        this.productDetails = {
+          ...data,
+          specification: JSON.parse(data.specification),
+        };
+      });
   }
 }

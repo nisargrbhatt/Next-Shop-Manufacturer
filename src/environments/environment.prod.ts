@@ -26,6 +26,9 @@ export const basicAPIURIs = {
     '/product/getProductWithCategoryByManufacturerId',
   getProductWithCategoryByManufacturerIdApprovalPending:
     '/product/getProductWithCategoryByManufacturerIdApprovalPending',
+  getAllProductsByManufacturerId: '/product/getAllProductsByManufacturerId',
+  getAllProductWithSearchByManufacturerId:
+    '/product/getAllProductWithSearchByManufacturerId',
   // Category Controller
   getAllCategories: '/category/getAllCategories',
   getCategory: '/category/getCategory',
@@ -93,7 +96,7 @@ export const secureAPIURIs = {
   getKycApproval: { url: '/kyc/getKycApproval', hasQuery: true },
   getKYCApprovalByMerchantManufacturerId: {
     url: '/kyc/getKYCApprovalByMerchantManufacturerId',
-    hasQuery: false,
+    hasQuery: true,
   },
   // KYCImage Controller
   addKYCImage: { url: 'kyc-image/addKYCImage', hasQuery: false },
