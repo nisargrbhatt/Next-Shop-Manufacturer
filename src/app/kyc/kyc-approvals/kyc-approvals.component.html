@@ -1,15 +1,15 @@
 <div class="hero">
   <div class="hero-bar">
     <div class="hero-bar-spacer"></div>
-    <button mat-raised-button color="primary" (click)="getKycApprovals()">
+    <button mat-raised-button color="primary" (click)="onRefresh()">
       <mat-icon>refresh</mat-icon> Refresh
     </button>
   </div>
-  <div class="hero-data" *ngIf="!pageLoading">
+  <div class="hero-data">
     <div class="hero-data-bar">
       <div class="hero-data-bar-count">
         <button mat-flat-button color="primary">
-          Approvals: {{ kycApprovals.count }}
+          Approvals: {{ totalApprovals }}
         </button>
       </div>
       <div class="hero-data-bar-spacer"></div>
@@ -23,7 +23,7 @@
         </button>
       </div>
     </div>
-    <div class="hero-data-result">
+    <div class="hero-data-result" *ngIf="kycApprovals">
       <mat-expansion-panel *ngFor="let kycApproval of kycApprovals.rows">
         <mat-expansion-panel-header>
           <mat-panel-title>{{ kycApproval.name }}</mat-panel-title>
@@ -60,7 +60,12 @@
       <div class="hero-data-result-null" *ngIf="kycApprovals.count === 0">
         No Approvals Found
       </div>
+      <mat-paginator
+        [length]="totalApprovals"
+        [pageSize]="approvalsPerPage"
+        (page)="onPageChange($event)"
+      ></mat-paginator>
     </div>
   </div>
-  <app-loader *ngIf="pageLoading"></app-loader>
+  <app-loader *ngIf="!kycApprovals"></app-loader>
 </div>

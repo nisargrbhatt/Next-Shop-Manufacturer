@@ -1,3 +1,4 @@
+import { switchMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
@@ -17,6 +18,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ErrorComponent } from '../../dialog/error/error.component';
 import { ResMesComponent } from '../../dialog/res-mes/res-mes.component';
+import { of, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-image-update',
@@ -47,51 +49,11 @@ export class ProductImageUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.pageLoading = true;
-    this.getImageByProductId();
-  }
-
-  async getImageByProductId(): Promise<void> {
-    this.pageLoading = true;
-    let getImageByProductIdResponse: GetImageByProductIdResponse;
-    try {
-      getImageByProductIdResponse = await this.imageService.getImageByProductId(
-        this.dialogData.productId,
-      );
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        getImageByProductIdResponse = { ...error.error };
-      }
-    }
-    if (getImageByProductIdResponse.valid) {
-      this.imagesDetails = getImageByProductIdResponse.data;
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in getImageByProductIdResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: getImageByProductIdResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in getImageByProductIdResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: getImageByProductIdResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/product/', this.dialogData.productId]);
-    }
-    this.pageLoading = false;
+    this.imageService
+      .getImageByProductId(this.dialogData.productId)
+      .subscribe((data) => {
+        this.imagesDetails = data;
+      });
   }
 
   get image(): FormArray {
@@ -125,21 +87,10 @@ export class ProductImageUpdateComponent implements OnInit {
     this.image.removeAt(i);
   }
 
-  async deleteImage(imageId: string): Promise<void> {
-    console.log(imageId);
-
+  deleteImage(imageId: string): void {
     this.pageLoading = true;
-    let deleteImageResponse: DeleteImageResponse;
-    try {
-      deleteImageResponse = await this.imageService.deleteImage(imageId);
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        deleteImageResponse = { ...error.error };
-      }
-    }
-    if (deleteImageResponse.valid) {
+
+    this.imageService.deleteImage(imageId).subscribe((response) => {
       this.snackbarService.open('Image deleted succssfully', 'Ok', {
         duration: 2 * 1000,
       });
@@ -147,38 +98,14 @@ export class ProductImageUpdateComponent implements OnInit {
       this.imagesDetails.rows = this.imagesDetails.rows.filter(
         (imageObj) => imageId !== imageObj.id,
       );
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in deleteImageResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: deleteImageResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in deleteImageResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: deleteImageResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/product/', this.dialogData.productId]);
-    }
-    this.pageLoading = false;
+    });
   }
 
   async onSubmit(): Promise<void> {
     if (this.imageForm.invalid) {
       return;
     }
-    this.pageLoading = true;
+
     this.imagesChanges = true;
     const addImageData = new FormData();
     for (const file of this.imageForm.value.image) {
@@ -187,47 +114,25 @@ export class ProductImageUpdateComponent implements OnInit {
     }
     addImageData.append('productId', this.dialogData.productId);
 
-    let addImageResponse: AddImageResponse;
-    try {
-      addImageResponse = await this.imageService.addImage(addImageData);
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        addImageResponse = { ...error.error };
-      }
-    }
-    if (addImageResponse.valid) {
-      this.snackbarService.open(addImageResponse.message, 'Ok', {
-        duration: 2 * 1000,
-      });
-      this.image.clear();
-      this.getImageByProductId();
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in addImageResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: addImageResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in addImageResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: addImageResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
+    this.imageService
+      .addImage(addImageData)
+      .pipe(
+        switchMap((response) => {
+          this.snackbarService.open(response.message, 'Ok', {
+            duration: 2 * 1000,
           });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/product/', this.dialogData.productId]);
-    }
+          this.image.clear();
+          return this.imageService.getImageByProductId(
+            this.dialogData.productId,
+          );
+        }),
+      )
+      .subscribe((data) => {
+        this.imagesDetails = data;
+      });
+  }
 
-    this.pageLoading = false;
+  getCloseData(): Observable<any> {
+    return of(this.imagesChanges);
   }
 }

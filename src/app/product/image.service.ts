@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import {
   AddImageResponse,
   AddImageData,
@@ -12,6 +13,7 @@ import {
   secureAPIURIs,
   basicAPIURIs,
 } from 'src/environments/environment';
+import { map } from 'rxjs/operators';
 
 const BACKEND_URL = environment.production
   ? environment.backend_url_secure
@@ -23,32 +25,26 @@ const BACKEND_URL = environment.production
 export class ImageService {
   constructor(private httpService: HttpClient) {}
 
-  async addImage(addImageData: AddImageData | any): Promise<AddImageResponse> {
-    return await this.httpService
-      .post<AddImageResponse>(
-        BACKEND_URL + secureAPIURIs.addImage.url,
-        addImageData,
-      )
-      .toPromise();
+  addImage(addImageData: AddImageData | any): Observable<any> {
+    return this.httpService.post<AddImageResponse>(
+      BACKEND_URL + secureAPIURIs.addImage.url,
+      addImageData,
+    );
   }
 
-  async deleteImage(imageId: string): Promise<DeleteImageResponse> {
-    return await this.httpService
-      .delete<DeleteImageResponse>(
-        BACKEND_URL + secureAPIURIs.deleteImage.url + `/?imageId=${imageId}`,
-      )
-      .toPromise();
+  deleteImage(imageId: string): Observable<any> {
+    return this.httpService.delete<DeleteImageResponse>(
+      BACKEND_URL + secureAPIURIs.deleteImage.url + `/?imageId=${imageId}`,
+    );
   }
 
-  async getImageByProductId(
-    productId: string,
-  ): Promise<GetImageByProductIdResponse> {
-    return await this.httpService
+  getImageByProductId(productId: string): Observable<any> {
+    return this.httpService
       .get<GetImageByProductIdResponse>(
         BACKEND_URL +
           basicAPIURIs.getImageByProductId +
           `/?productId=${productId}`,
       )
-      .toPromise();
+      .pipe(map((response) => response.data));
   }
 }

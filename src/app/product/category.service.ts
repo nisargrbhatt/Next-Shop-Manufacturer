@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { GetAllCategoryResponse } from './category.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -7,6 +8,7 @@ import {
   secureAPIURIs,
   basicAPIURIs,
 } from 'src/environments/environment';
+import { map } from 'rxjs/operators';
 
 const BACKEND_URL = environment.production
   ? environment.backend_url_secure
@@ -18,9 +20,9 @@ const BACKEND_URL = environment.production
 export class CategoryService {
   constructor(private httpService: HttpClient) {}
 
-  async getAllCategories(): Promise<GetAllCategoryResponse> {
-    return await this.httpService
+  getAllCategories(): Observable<any> {
+    return this.httpService
       .get<GetAllCategoryResponse>(BACKEND_URL + basicAPIURIs.getAllCategories)
-      .toPromise();
+      .pipe(map((response) => response.data));
   }
 }

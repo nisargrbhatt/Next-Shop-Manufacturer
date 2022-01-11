@@ -112,7 +112,7 @@ export class CreateKycApprovalComponent implements OnInit {
     this.photos.removeAt(i);
   }
 
-  async onCreate(): Promise<void> {
+  onCreate(): void {
     if (this.kycApprovalForm.invalid && this.imageForm.value.photo.length > 0) {
       return;
     }
@@ -136,48 +136,6 @@ export class CreateKycApprovalComponent implements OnInit {
       kycApprovalFormData.append('image', fileObj);
     }
 
-    let createKycApprovalResponse: CreateKycApprovalResponse;
-    try {
-      createKycApprovalResponse = await this.kycService.createKycApproval(
-        kycApprovalFormData,
-      );
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        createKycApprovalResponse = { ...error.error };
-      }
-    }
-    if (createKycApprovalResponse.valid) {
-      this.snackBarService.open(createKycApprovalResponse.message, 'Ok', {
-        duration: 5 * 1000,
-      });
-      this.router.navigate(['/kyc']);
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in createKycApprovalResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: createKycApprovalResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in createKycApprovalResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: createKycApprovalResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/kyc']);
-    }
-    this.formLoading = false;
-    this.disableControl = false;
+    this.kycService.createKycApproval(kycApprovalFormData);
   }
 }

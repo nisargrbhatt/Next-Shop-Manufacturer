@@ -1,8 +1,8 @@
 <div mat-dialog-title>
   <h2>{{ dialogData.name }}'s Images</h2>
 </div>
-<div mat-dialog-content>
-  <div class="images-product" *ngIf="!pageLoading">
+<div mat-dialog-content *ngIf="imagesDetails">
+  <div class="images-product" *ngIf="imagesDetails.rows">
     <div class="image-product" *ngFor="let imageObj of imagesDetails.rows">
       <img [src]="imageObj.url" [alt]="imageObj.name" />
       <button
@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <form [formGroup]="imageForm" (submit)="onSubmit()" *ngIf="!pageLoading">
+  <form [formGroup]="imageForm" (submit)="onSubmit()">
     <div>
       <input
         type="file"
@@ -65,13 +65,13 @@
       Add Images
     </button>
   </form>
-  <app-loader *ngIf="pageLoading"></app-loader>
+  <app-loader *ngIf="!imagesDetails"></app-loader>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button [mat-dialog-close]="imagesChanges" color="accent">
+  <button mat-raised-button [mat-dialog-close]="getCloseData()" color="accent">
     Ok
   </button>
-  <button [mat-dialog-close]="imagesChanges" mat-raised-button color="warn">
+  <button [mat-dialog-close]="getCloseData()" mat-raised-button color="warn">
     Cancel
   </button>
 </div>

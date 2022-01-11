@@ -1,3 +1,4 @@
+import { forkJoin, Observable } from 'rxjs';
 import {
   GetProductResponse,
   ProductData,
@@ -22,6 +23,7 @@ import {
   ProductCardSmallDetails,
   ProductCardLongDetails,
 } from 'src/app/shared/product/product.interface';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-update',
@@ -29,25 +31,20 @@ import {
   styleUrls: ['./product-update.component.scss'],
 })
 export class ProductUpdateComponent implements OnInit {
-  pageLoading = false;
   productId: string;
   productForm: FormGroup;
   productDetails: ProductData;
   categories: GetAllCategoryResponseData;
+  product$: Observable<any>;
 
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackbarService: MatSnackBar,
-    private dialogService: MatDialog,
     private formBuilder: FormBuilder,
   ) {}
-
   ngOnInit(): void {
-    this.pageLoading = true;
-
     this.productForm = this.formBuilder.group({
       name: this.formBuilder.control('', { validators: [Validators.required] }),
       categoryId: this.formBuilder.control('', {
@@ -63,23 +60,21 @@ export class ProductUpdateComponent implements OnInit {
         validators: [Validators.required],
       }),
     });
-
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('id')) {
-        this.productId = paramMap.get('id');
-        this.getProductData();
-      } else {
-        this.snackbarService.open('Bad Route', 'Ok', {
-          duration: 2 * 1000,
-        });
-      }
+    if (this.route.snapshot.params.id) {
+      this.productId = this.route.snapshot.params.id;
+    }
+    forkJoin([
+      this.categoryService.getAllCategories(),
+      this.productService.getProduct(this.productId),
+    ]).subscribe((results) => {
+      this.categories = results[0];
+      this.productDetails = results[1];
+      this.formDataBind();
     });
   }
-
   get specification(): FormArray {
     return this.productForm.get('specification') as FormArray;
   }
-
   createSpecification(label?: string, value?: string): void {
     this.specification.push(
       this.formBuilder.group({
@@ -92,99 +87,11 @@ export class ProductUpdateComponent implements OnInit {
       }),
     );
   }
-
   removeSpecification(index: number): void {
     this.specification.removeAt(index);
   }
 
-  async getProductData(): Promise<void> {
-    this.pageLoading = true;
-
-    let getProductResponse: GetProductResponse;
-    try {
-      getProductResponse = await this.productService.getProduct(this.productId);
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        getProductResponse = {
-          ...error.error,
-        };
-      }
-    }
-    if (getProductResponse.valid) {
-      this.productDetails = getProductResponse.data;
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in getProductResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: getProductResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in getProductResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: getProductResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/product']);
-    }
-    this.getCategoryData();
-  }
-
-  async getCategoryData(): Promise<void> {
-    this.pageLoading = true;
-    let getCategoryDataResponse: GetAllCategoryResponse;
-    try {
-      getCategoryDataResponse = await this.categoryService.getAllCategories();
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        getCategoryDataResponse = { ...error.error };
-      }
-    }
-    if (getCategoryDataResponse.valid) {
-      this.categories = getCategoryDataResponse.data;
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in getCategoryDataResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: getCategoryDataResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in getCategoryDataResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: getCategoryDataResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/product']);
-    }
-
-    this.formDataBind();
-  }
-
-  async formDataBind(): Promise<void> {
-    this.pageLoading = true;
+  formDataBind(): void {
     this.productForm.get('name').setValue(this.productDetails.name);
     this.productForm.get('categoryId').setValue(this.productDetails.categoryId);
     this.productForm
@@ -201,9 +108,7 @@ export class ProductUpdateComponent implements OnInit {
         specificationItem.value,
       );
     }
-    this.pageLoading = false;
   }
-
   get productCardSmallDetails(): ProductCardSmallDetails {
     const name = this.productForm.value.name
       ? this.productForm.value.name.length < 33
@@ -220,7 +125,6 @@ export class ProductUpdateComponent implements OnInit {
     };
     return productCardSmallDetails;
   }
-
   get productCardLongDetails(): ProductCardLongDetails {
     const name = this.productForm.value.name
       ? this.productForm.value.name.length < 33
@@ -246,18 +150,14 @@ export class ProductUpdateComponent implements OnInit {
     };
     return productCardLongDetails;
   }
-
-  async onSubmit(): Promise<void> {
-    this.pageLoading = true;
+  onSubmit(): void {
     if (this.productForm.invalid) {
       return;
     }
-
     if (!this.productForm.dirty) {
       this.router.navigate(['/product/' + this.productId]);
       return;
     }
-
     const updateProductData: UpdateProductData = {
       name: this.productForm.value.name,
       categoryId: this.productForm.value.categoryId,
@@ -267,45 +167,6 @@ export class ProductUpdateComponent implements OnInit {
       specification: JSON.stringify(this.productForm.value.specification),
     };
 
-    let updateProductResponse: UpdateProductResponse;
-    try {
-      updateProductResponse = await this.productService.updateProduct(
-        updateProductData,
-      );
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        updateProductResponse = { ...error.error };
-      }
-    }
-    if (updateProductResponse.valid) {
-      this.snackbarService.open(updateProductResponse.message, 'Ok', {
-        duration: 2 * 1000,
-      });
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in updateProductResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: updateProductResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in updateProductResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: updateProductResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-    }
-    this.router.navigate(['/product/' + this.productId]);
+    this.productService.updateProduct(updateProductData);
   }
 }

@@ -1,60 +1,75 @@
-import {
-  GetProductWithCategoryByManufacturerIdResponseData,
-  GetProductWithCategoryByManufacturerIdApprovalPendingResponseData,
-  GetProductWithCategoryByManufacturerIdResponse,
-  GetProductWithCategoryByManufacturerIdApprovalPendingResponse,
-} from './../product.interface';
+import { BehaviorSubject, EMPTY, Subscription } from 'rxjs';
+import { FormControl } from '@angular/forms';
 import { ProductService } from './../product.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ErrorComponent } from 'src/app/shared/dialog/error/error.component';
-import { ResMesComponent } from 'src/app/shared/dialog/res-mes/res-mes.component';
-import { environment } from 'src/environments/environment';
-
-import { MatSelectChange } from '@angular/material/select';
 import { ProductCardSmallDetails } from 'src/app/shared/product/product.interface';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  switchMap,
+} from 'rxjs/operators';
+import { SubSink } from 'subsink';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
 })
-export class ProductListComponent implements OnInit {
-  pageLoading = false;
-  dataLoading = false;
-
-  filterValue: 'Pending' | 'Approved' = 'Pending';
+export class ProductListComponent implements OnInit, OnDestroy {
+  private subs = new SubSink();
 
   searchText = '';
 
   totalApprovals = 0;
-  approvalsPerPage = 10;
+  approvalsPerPage = 20;
   currentPage = 1;
-  pageSizeOptions = [10, 20, 30, 40];
 
-  approvedProducts: GetProductWithCategoryByManufacturerIdResponseData;
-  pendingProducts: GetProductWithCategoryByManufacturerIdApprovalPendingResponseData;
+  search = new FormControl('');
 
-  constructor(
-    private productService: ProductService,
-    private router: Router,
-    private dialogService: MatDialog,
-  ) {}
+  pageNumber = new BehaviorSubject<number>(1);
+
+  public searchData: { rows: any[]; count: number } = { rows: [], count: 0 };
+
+  constructor(private productService: ProductService, private router: Router) {}
 
   ngOnInit(): void {
-    this.pageLoading = true;
-    this.getPendingProductApprovals();
-    this.pageLoading = false;
-  }
+    this.subs.sink = this.search.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        filter((search) => search !== ''),
+        switchMap((search) =>
+          this.productService.getAllProductsWithSearch(
+            this.pageNumber.getValue(),
+            20,
+            search,
+          ),
+        ),
+      )
+      .subscribe((data) => {
+        this.searchData = data;
+      });
 
-  onFilterChange(event: MatSelectChange): void {
-    this.filterValue = event.source.value;
-    if (this.filterValue === 'Pending') {
-      this.getPendingProductApprovals();
-    } else {
-      this.getApprovedProducts();
-    }
+    this.subs.sink = this.pageNumber
+      .asObservable()
+      .pipe(
+        distinctUntilChanged(),
+        switchMap(() => {
+          if (this.search.value === '') {
+            return EMPTY;
+          }
+          return this.productService.getAllProductsWithSearch(
+            this.pageNumber.getValue(),
+            20,
+            this.search.value,
+          );
+        }),
+      )
+      .subscribe((data) => {
+        this.searchData = data;
+      });
   }
 
   onProductClick(id: string): void {
@@ -70,120 +85,11 @@ export class ProductListComponent implements OnInit {
     };
   }
 
-  async getPendingProductApprovals(): Promise<void> {
-    this.dataLoading = true;
-    let getProductWithCategoryByManufacturerIdApprovalPendingResponse: GetProductWithCategoryByManufacturerIdApprovalPendingResponse;
-    try {
-      getProductWithCategoryByManufacturerIdApprovalPendingResponse =
-        await this.productService.getProductWithCategoryByManufacturerIdApprovalPending(
-          this.currentPage,
-          this.approvalsPerPage,
-          this.searchText,
-        );
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        getProductWithCategoryByManufacturerIdApprovalPendingResponse = {
-          ...error.error,
-        };
-      }
-    }
-    if (getProductWithCategoryByManufacturerIdApprovalPendingResponse.valid) {
-      this.pendingProducts =
-        getProductWithCategoryByManufacturerIdApprovalPendingResponse.data;
-      this.totalApprovals = this.pendingProducts.count;
-    } else {
-      // Open Dialog to show dialog data
-      if (
-        'dialog' in
-        getProductWithCategoryByManufacturerIdApprovalPendingResponse
-      ) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: getProductWithCategoryByManufacturerIdApprovalPendingResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if (
-        'error' in getProductWithCategoryByManufacturerIdApprovalPendingResponse
-      ) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: getProductWithCategoryByManufacturerIdApprovalPendingResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/']);
-    }
-
-    this.dataLoading = false;
+  onPageChange(event: PageEvent): void {
+    this.pageNumber.next(event.pageIndex + 1);
   }
 
-  async getApprovedProducts(): Promise<void> {
-    this.dataLoading = true;
-    let getProductWithCategoryByManufacturerIdResponse: GetProductWithCategoryByManufacturerIdResponse;
-    try {
-      getProductWithCategoryByManufacturerIdResponse =
-        await this.productService.getProductWithCategoryByManufacturerId(
-          this.currentPage,
-          this.approvalsPerPage,
-          this.searchText,
-        );
-    } catch (error) {
-      if (error.error instanceof ErrorEvent) {
-        console.log(error);
-      } else {
-        getProductWithCategoryByManufacturerIdResponse = {
-          ...error.error,
-        };
-      }
-    }
-    if (getProductWithCategoryByManufacturerIdResponse.valid) {
-      this.approvedProducts =
-        getProductWithCategoryByManufacturerIdResponse.data;
-      this.totalApprovals = this.approvedProducts.count;
-    } else {
-      // Open Dialog to show dialog data
-      if ('dialog' in getProductWithCategoryByManufacturerIdResponse) {
-        const resMesDialogRef = this.dialogService.open(ResMesComponent, {
-          data: getProductWithCategoryByManufacturerIdResponse.dialog,
-          autoFocus: true,
-          hasBackdrop: true,
-        });
-        await resMesDialogRef.afterClosed().toPromise();
-      }
-
-      // Open Dialog to show error data
-      if ('error' in getProductWithCategoryByManufacturerIdResponse) {
-        if (environment.debug) {
-          const errorDialogRef = this.dialogService.open(ErrorComponent, {
-            data: getProductWithCategoryByManufacturerIdResponse.error,
-            autoFocus: true,
-            hasBackdrop: true,
-          });
-          await errorDialogRef.afterClosed().toPromise();
-        }
-      }
-      this.router.navigate(['/']);
-    }
-
-    this.dataLoading = false;
-  }
-
-  onPageChange(pageData: PageEvent): void {
-    this.currentPage = pageData.pageIndex + 1;
-    this.approvalsPerPage = pageData.pageSize;
-    if (this.filterValue === 'Pending') {
-      this.getPendingProductApprovals();
-    } else {
-      this.getApprovedProducts();
-    }
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

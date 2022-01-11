@@ -1,4 +1,4 @@
-<div class="hero" *ngIf="!pageLoading">
+<div class="hero" *ngIf="productDetails && categories">
   <div class="hero-form">
     <form [formGroup]="productForm" (submit)="onSubmit()">
       <mat-form-field appearance="outline">
@@ -140,4 +140,4 @@
     ></app-product-card-long>
   </div>
 </div>
-<app-loader *ngIf="pageLoading"></app-loader>
+<app-loader *ngIf="!productDetails || !categories"></app-loader>
