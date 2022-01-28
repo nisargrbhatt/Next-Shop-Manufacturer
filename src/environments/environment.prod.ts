@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  backend_url: '',
-  backend_url_secure: '',
+  backend_url: 'https://next-shop-backend.herokuapp.com/',
+  backend_url_secure: 'https://next-shop-backend.herokuapp.com/',
   debug: false,
   auth0ClientId: 'YSCYOG2xmB9HRR7LYGf21NeZEzWFGFGw',
   auth0Audience: 'http://localhost:3001',
