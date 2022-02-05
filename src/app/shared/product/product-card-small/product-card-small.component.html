@@ -20,13 +20,18 @@
   </div>
   <div class="product-ratings">
     <div class="ratings">
-      <div class="star-yellow"></div>
-      <div class="star-yellow"></div>
-      <div class="star-yellow"></div>
-      <div class="star-grey"></div>
-      <div class="star-grey"></div>
+      <div class="star-yellow" *ngIf="review[0] / 5 >= 1"></div>
+      <div class="star-yellow" *ngIf="review[0] / 4 >= 1"></div>
+      <div class="star-yellow" *ngIf="review[0] / 3 >= 1"></div>
+      <div class="star-yellow" *ngIf="review[0] / 2 >= 1"></div>
+      <div class="star-yellow" *ngIf="review[0] / 1 >= 1"></div>
+      <div class="star-grey" *ngIf="5 - review[0] > 0"></div>
+      <div class="star-grey" *ngIf="4 - review[0] > 0"></div>
+      <div class="star-grey" *ngIf="3 - review[0] > 0"></div>
+      <div class="star-grey" *ngIf="2 - review[0] > 0"></div>
+      <div class="star-grey" *ngIf="1 - review[0] > 0"></div>
     </div>
-    <div class="reviews">123 Reviews</div>
+    <div class="reviews">{{ review[1] }} Reviews</div>
   </div>
   <div class="product-actions" *ngIf="actionName">
     <button

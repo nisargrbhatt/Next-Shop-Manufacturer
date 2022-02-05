@@ -103,8 +103,21 @@ export const secureAPIURIs = {
     hasQuery: true,
   },
   // KYCImage Controller
-  addKYCImage: { url: 'kyc-image/addKYCImage', hasQuery: false },
-  deleteKYCImage: { url: 'kyc-image/deleteKYCImage', hasQuery: false },
+  addKYCImage: { url: '/kyc-image/addKYCImage', hasQuery: false },
+  deleteKYCImage: { url: '/kyc-image/deleteKYCImage', hasQuery: false },
+  // Analytic Controller
+  getPendingOrdersOfManufacturerByMonth: {
+    url: '/analytic/getPendingOrdersOfManufacturerByMonth',
+    hasQuery: false,
+  },
+  getAcceptedOrdersOfManufacturerByMonth: {
+    url: '/analytic/getAcceptedOrdersOfManufacturerByMonth',
+    hasQuery: false,
+  },
+  getCanceledOrdersOfManufacturerByMonth: {
+    url: '/analytic/getCanceledOrdersOfManufacturerByMonth',
+    hasQuery: false,
+  },
 };
 
 /*

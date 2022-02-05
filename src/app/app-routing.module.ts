@@ -23,6 +23,11 @@ const routes: Routes = [
       import('./product/product.module').then((m) => m.ProductModule),
   },
   {
+    path: '',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+  {
     path: '**',
     component: Error404Component,
   },
