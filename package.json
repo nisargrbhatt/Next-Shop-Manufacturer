@@ -28,6 +28,7 @@
     "@auth0/auth0-angular": "^1.8.1",
     "@ng-bootstrap/ng-bootstrap": "^8.0.4",
     "bootstrap": "^5.1.3",
+    "chart.js": "^3.7.0",
     "ngx-infinite-scroll": "^10.0.1",
     "ngx-viewer": "^1.0.8",
     "rxjs": "~6.5.5",

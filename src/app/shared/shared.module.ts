@@ -11,6 +11,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { ProductCardSmallComponent } from './product/product-card-small/product-card-small.component';
 import { ProductCardLongComponent } from './product/product-card-long/product-card-long.component';
 import { ProductImageUpdateComponent } from './product/product-image-update/product-image-update.component';
+import { BarLineChartComponent } from './charts/bar-line-chart/bar-line-chart.component';
 
 @NgModule({
   imports: [CommonModule, AngularMaterialModule, RouterModule],
@@ -24,6 +25,7 @@ import { ProductImageUpdateComponent } from './product/product-image-update/prod
     ProductCardSmallComponent,
     ProductCardLongComponent,
     ProductImageUpdateComponent,
+    BarLineChartComponent,
   ],
   providers: [],
   exports: [
@@ -36,6 +38,7 @@ import { ProductImageUpdateComponent } from './product/product-image-update/prod
     ProductCardSmallComponent,
     ProductCardLongComponent,
     ProductImageUpdateComponent,
+    BarLineChartComponent,
   ],
 })
 export class SharedModule {}
