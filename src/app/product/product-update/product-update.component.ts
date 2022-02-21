@@ -60,8 +60,8 @@ export class ProductUpdateComponent implements OnInit {
         validators: [Validators.required],
       }),
     });
-    if (this.route.snapshot.params.id) {
-      this.productId = this.route.snapshot.params.id;
+    if (this.route.snapshot.params['id']) {
+      this.productId = this.route.snapshot.params['id'];
     }
     forkJoin([
       this.categoryService.getAllCategories(),

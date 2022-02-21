@@ -55,7 +55,10 @@ export class Auth0Service {
             };
             let oAuthCallResponse: OAuthCallResponse;
             this.httpService
-              .post(BACKEND_URL + '/user/oAuthCall', oAuthCallBody)
+              .post<OAuthCallResponse>(
+                BACKEND_URL + '/user/oAuthCall',
+                oAuthCallBody,
+              )
               .toPromise()
               .then((oAuthCallResponse1: OAuthCallResponse) => {
                 oAuthCallResponse = oAuthCallResponse1;

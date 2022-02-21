@@ -1,12 +1,12 @@
 import { ProductCardSmallDetails } from './../product.interface';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-product-card-small',
   templateUrl: './product-card-small.component.html',
   styleUrls: ['./product-card-small.component.scss'],
 })
-export class ProductCardSmallComponent implements OnInit {
+export class ProductCardSmallComponent {
   @Input() productDetails: ProductCardSmallDetails;
   @Input() actionName: string;
   @Input() actionIcon: string;
@@ -14,6 +14,4 @@ export class ProductCardSmallComponent implements OnInit {
   @Output() actionClick: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

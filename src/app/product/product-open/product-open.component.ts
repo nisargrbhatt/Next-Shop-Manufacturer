@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductService } from '../product.service';
 import { ProductData } from '../product.interface';
 
-import { distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, switchMap } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 
 @Component({
@@ -37,8 +37,8 @@ export class ProductOpenComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.pageLoading = true;
-    if (this.route.snapshot.params.id) {
-      this.productId = this.route.snapshot.params.id;
+    if (this.route.snapshot.params['id']) {
+      this.productId = this.route.snapshot.params['id'];
     }
 
     this.subs.sink = this.productService
@@ -58,9 +58,12 @@ export class ProductOpenComponent implements OnInit, OnDestroy {
       this.reviewStar = 0;
       return;
     }
-    const sum = this.productDetails.reviewes.reduce((previous, current) => {
-      return previous + current.stars;
-    }, 0);
+    const sum = this.productDetails.reviewes.reduce(
+      (previous: number, current: any) => {
+        return previous + current.stars;
+      },
+      0,
+    );
     this.reviewStar = Math.floor(sum / total);
   }
 
@@ -92,11 +95,8 @@ export class ProductOpenComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(
         distinctUntilChanged(),
-        switchMap((changeDetected: boolean) => {
-          if (changeDetected) {
-            return this.productService.getProduct(this.productId);
-          }
-        }),
+        filter((changeDetected: boolean) => changeDetected === true),
+        switchMap(() => this.productService.getProduct(this.productId)),
       )
       .subscribe((data) => {
         this.productDetails = {
