@@ -49,3 +49,6 @@ Thumbs.db
 # Lock Files
 package-lock.json
 yarn-lock.json
+
+# Angular Cache
+.angular

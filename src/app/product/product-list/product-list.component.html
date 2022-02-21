@@ -1,4 +1,4 @@
-<div class="hero">
+<!-- <div class="hero">
   <div class="hero-data">
     <div class="hero-data-bar">
       <input type="text" [formControl]="search" placeholder="Search" />
@@ -40,4 +40,48 @@
       ></mat-paginator>
     </div>
   </div>
+</div> -->
+
+<!-- NEW DESIGN -->
+
+<div class="hero" *ngIf="searchData">
+  <mat-toolbar color="primary">
+    <mat-form-field appearance="fill">
+      <input matInput [formControl]="search" placeholder="Search" type="text" />
+    </mat-form-field>
+    <button mat-flat-button color="primary" routerLink="/product/create">
+      Create <mat-icon>add</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-accordion>
+    <mat-grid-list
+      [cols]="mybreakpoint"
+      rowHeight="450px"
+      (window:resize)="handleSize($event)"
+      *ngIf="searchData?.count > 0"
+    >
+      <mat-grid-tile *ngFor="let product of searchData.rows">
+        <app-product-card-small
+          [productDetails]="getProductCardDetails(product)"
+          actionName="Open"
+          actionIcon="open_in_full"
+          (actionClick)="onProductClick($event)"
+        ></app-product-card-small>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <p
+      class="mat-display-1"
+      style="text-align: center"
+      *ngIf="searchData.count === 0"
+    >
+      No Product Found
+    </p>
+  </mat-accordion>
+  <mat-paginator
+    *ngIf="searchData.count"
+    [length]="searchData.count"
+    [pageSize]="approvalsPerPage"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
 </div>
+<app-loader *ngIf="!searchData"></app-loader>

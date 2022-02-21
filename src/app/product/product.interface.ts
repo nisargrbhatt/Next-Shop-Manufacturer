@@ -102,7 +102,7 @@ export interface ProductData {
   userId: string;
   createdAt: string;
   updatedAt: string;
-  user: User;
+  user?: User;
   images: Image[];
   category?: Row;
 }

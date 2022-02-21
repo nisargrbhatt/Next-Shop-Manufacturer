@@ -20,6 +20,8 @@ import { SubSink } from 'subsink';
 export class ProductListComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
 
+  mybreakpoint: number;
+
   searchText = '';
 
   totalApprovals = 0;
@@ -35,6 +37,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   constructor(private productService: ProductService, private router: Router) {}
 
   ngOnInit(): void {
+    this.mybreakpoint = window.innerWidth <= 1000 ? 2 : 4;
     this.subs.sink = this.search.valueChanges
       .pipe(
         debounceTime(500),
@@ -87,6 +90,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   onPageChange(event: PageEvent): void {
     this.pageNumber.next(event.pageIndex + 1);
+  }
+
+  handleSize(event: any): void {
+    this.mybreakpoint = event.target.innerWidth <= 1000 ? 2 : 4;
+    if (event.target.innerWidth <= 532) {
+      this.mybreakpoint = 1;
+    }
   }
 
   ngOnDestroy(): void {

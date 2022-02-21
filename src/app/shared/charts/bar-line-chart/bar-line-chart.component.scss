@@ -1,0 +1,43 @@
+.hero {
+  padding: 0;
+  margin: 0;
+}
+
+canvas {
+  width: 40vw;
+  height: 40vh;
+}
+
+.hero-row-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-row-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-row-3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 756px) {
+  .hero-row-1 {
+    flex-direction: column;
+  }
+  .hero-row-2 {
+    flex-direction: column;
+  }
+  .hero-row-3 {
+    flex-direction: column;
+  }
+  canvas {
+    width: 90vw;
+    height: 50vh;
+  }
+}

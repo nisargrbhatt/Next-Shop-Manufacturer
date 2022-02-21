@@ -8,8 +8,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ProductCardSmallComponent implements OnInit {
   @Input() productDetails: ProductCardSmallDetails;
-  @Input() cardHeight: number;
-  @Input() cardWidth: number;
   @Input() actionName: string;
   @Input() actionIcon: string;
   @Input() review: [number, number] = [0, 0];

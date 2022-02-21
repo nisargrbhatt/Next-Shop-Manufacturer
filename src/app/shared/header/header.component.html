@@ -1,15 +1,46 @@
 <mat-toolbar color="primary">
-  <button
+  <!-- <button
     mat-icon-button
     class="example-icon"
     aria-label="Menu icon"
     (click)="changeSideNavState(true)"
   >
     <mat-icon>menu</mat-icon>
-  </button>
+  </button> -->
   <span class="brand-hero"><a routerLink="/">Next Shop</a></span>
+  <span class="spacer"></span>
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    *ngIf="auth0Service.user$ | async as user"
+  >
+    <img class="avatar" [src]="user?.picture" />
+  </button>
+  <mat-menu #menu="matMenu" xPosition="before">
+    <button mat-menu-item routerLink="kyc" routerLinkActive="mat-accent">
+      <mat-icon>domain_verification</mat-icon> <span>KYC</span>
+    </button>
+
+    <button mat-menu-item routerLink="product" routerLinkActive="mat-accent">
+      <mat-icon> inventory_2</mat-icon> <span>Product</span>
+    </button>
+
+    <button
+      mat-menu-item
+      routerLink="profile/profile-view"
+      routerLinkActive="mat-accent"
+    >
+      <mat-icon> manage_accounts</mat-icon> <span>Manage Account</span>
+    </button>
+    <button mat-menu-item (click)="auth0Logout()">
+      <mat-icon> logout</mat-icon> <span>Logout</span>
+    </button>
+  </mat-menu>
+  <button mat-button *ngIf="!isAuthenticated" (click)="auth0Login()">
+    <mat-icon>login</mat-icon> <span> Login</span>
+  </button>
 </mat-toolbar>
-<app-sidenav
+<!-- <app-sidenav
   [sideNavShow]="sideNavShow"
   (changeSideNavState)="changeSideNavState($event)"
-></app-sidenav>
+></app-sidenav> -->
