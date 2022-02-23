@@ -57,7 +57,7 @@ export class AddressesComponent implements OnInit, OnDestroy {
     let getAddressesResponse: GetAddressesResponse;
     try {
       getAddressesResponse = await this.profileService.getAddresses();
-    } catch (error) {
+    } catch (error: any) {
       if (error.error instanceof ErrorEvent) {
         console.log(error);
       } else {

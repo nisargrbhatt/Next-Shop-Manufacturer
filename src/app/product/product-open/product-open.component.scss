@@ -1,128 +1,223 @@
+// .hero {
+//   display: block;
+//   margin: 0;
+//   padding: 0;
+// }
+
+// .hero-first {
+//   display: flex;
+//   margin: 0.5rem 1rem;
+// }
+
+// .first-image {
+//   flex: 40%;
+//   display: flex;
+//   flex-wrap: wrap;
+//   img {
+//     object-fit: cover;
+//     max-width: 10rem;
+//     max-height: 10rem;
+//   }
+// }
+
+// .first-details {
+//   flex: 60%;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: flex-start;
+//   padding: 1rem;
+// }
+
+// .product-name {
+//   font-size: x-large;
+//   font-family: 'Fira Code';
+//   font-weight: 600;
+//   margin: 1rem;
+// }
+
+// .product-category {
+//   font-size: large;
+//   font-family: 'Fira Code';
+//   font-weight: 500;
+//   margin: 0.5rem;
+// }
+
+// .product-approval-details {
+//   p {
+//     font-size: medium;
+//     font-weight: 550;
+//     margin: 0.5rem;
+//   }
+
+//   .pending-count-txt {
+//     color: grey;
+//   }
+
+//   .pending-txt {
+//     color: rgb(13, 228, 228);
+//     mat-icon {
+//       color: rgb(13, 228, 228);
+//     }
+//   }
+//   .approved-txt {
+//     color: green;
+//     mat-icon {
+//       color: green;
+//     }
+//   }
+//   .not-approved-txt {
+//     color: red;
+//     mat-icon {
+//       color: red;
+//     }
+//   }
+// }
+
+// .hero-second {
+//   display: flex;
+//   flex-direction: column;
+//   padding: 1rem;
+
+//   justify-content: flex-start;
+//   align-items: center;
+
+//   .product-description {
+//     color: black;
+//     font-family: 'Fira Code' monospace;
+//     font-size: medium;
+//     font-weight: 500;
+//     text-align: left;
+//     width: 100%;
+//     margin: 0.25rem;
+//   }
+
+//   .product-small-description {
+//     color: black;
+//     font-family: 'Fira Code' monospace;
+//     font-size: medium;
+//     font-weight: 500;
+//     text-align: left;
+//     width: 100%;
+//     margin: 0.25rem;
+//   }
+// }
+// .hero-third {
+//   margin: 1rem;
+//   display: flex;
+//   justify-content: center;
+//   .product-specifications {
+//     display: block;
+//     .product-specification {
+//       display: flex;
+//       margin: 1rem;
+//       .specification-label {
+//         font-size: small;
+//         font-weight: 400;
+//         color: gray;
+//         margin: 0.25rem;
+//       }
+//       .specification-value {
+//         font-size: small;
+//         font-weight: 400;
+//         color: black;
+//         margin: 0.25rem;
+//       }
+//     }
+//   }
+// }
+
 .hero {
-  display: block;
+  padding: 1rem;
   margin: 0;
-  padding: 0;
-}
-
-.hero-first {
   display: flex;
-  margin: 0.5rem 1rem;
+  width: 100%;
 }
 
-.first-image {
-  flex: 40%;
-  display: flex;
-  flex-wrap: wrap;
-  img {
-    object-fit: cover;
-    max-width: 10rem;
-    max-height: 10rem;
-  }
-}
-
-.first-details {
+.product-details {
   flex: 60%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 1rem;
 }
 
-.product-name {
-  font-size: x-large;
-  font-family: 'Fira Code';
-  font-weight: 600;
-  margin: 1rem;
-}
+.product-images {
+  flex: 40%;
+  padding: 0.5rem;
+  position: sticky;
 
-.product-category {
-  font-size: large;
-  font-family: 'Fira Code';
-  font-weight: 500;
-  margin: 0.5rem;
-}
-
-.product-approval-details {
-  p {
-    font-size: medium;
-    font-weight: 550;
-    margin: 0.5rem;
-  }
-
-  .pending-count-txt {
-    color: grey;
-  }
-
-  .pending-txt {
-    color: rgb(13, 228, 228);
-    mat-icon {
-      color: rgb(13, 228, 228);
+  .product-big-image {
+    display: flex;
+    justify-content: center;
+    img {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
     }
   }
-  .approved-txt {
-    color: green;
-    mat-icon {
-      color: green;
-    }
-  }
-  .not-approved-txt {
-    color: red;
-    mat-icon {
-      color: red;
+
+  .product-small-images {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    img {
+      object-fit: contain;
+      width: 5rem;
+      height: 5rem;
+      padding: 0 0.125rem;
     }
   }
 }
 
-.hero-second {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-
-  justify-content: flex-start;
-  align-items: center;
-
-  .product-description {
-    color: black;
-    font-family: 'Fira Code' monospace;
-    font-size: medium;
-    font-weight: 500;
-    text-align: left;
-    width: 100%;
-    margin: 0.25rem;
-  }
-
-  .product-small-description {
-    color: black;
-    font-family: 'Fira Code' monospace;
-    font-size: medium;
-    font-weight: 500;
-    text-align: left;
-    width: 100%;
-    margin: 0.25rem;
+.product-details {
+  width: 100%;
+  mat-accordion {
+    margin: 0.5rem 0.125rem;
   }
 }
-.hero-third {
-  margin: 1rem;
-  display: flex;
-  justify-content: center;
-  .product-specifications {
+
+.review-null-text {
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .product-images {
+    flex: none;
     display: block;
-    .product-specification {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    .product-big-image {
       display: flex;
-      margin: 1rem;
-      .specification-label {
-        font-size: small;
-        font-weight: 400;
-        color: gray;
-        margin: 0.25rem;
-      }
-      .specification-value {
-        font-size: small;
-        font-weight: 400;
-        color: black;
-        margin: 0.25rem;
+      justify-content: center;
+      img {
+        object-fit: cover;
+        width: 90%;
+        height: 90%;
       }
     }
+
+    .product-small-images {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      img {
+        object-fit: cover;
+        width: 20%;
+        height: 20%;
+        padding: 0 0.125rem;
+      }
+    }
+  }
+
+  .product-details {
+    flex: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 }

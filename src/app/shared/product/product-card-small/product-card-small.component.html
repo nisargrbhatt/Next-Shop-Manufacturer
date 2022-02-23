@@ -1,4 +1,4 @@
-<div
+<!-- <div
   class="hero"
   [ngStyle]="{ height: cardHeight + 'rem', width: cardWidth + 'rem' }"
 >
@@ -45,4 +45,49 @@
       </div>
     </button>
   </div>
-</div>
+</div> -->
+
+<!-- NEW DESIGN -->
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>{{ productDetails.name | titlecase }}</mat-card-title>
+    <mat-card-subtitle>{{
+      productDetails.category | titlecase
+    }}</mat-card-subtitle>
+  </mat-card-header>
+  <img
+    mat-card-image
+    [src]="
+      productDetails.image
+        ? productDetails.image
+        : 'assets/statics/product-image.jpg'
+    "
+    [alt]="productDetails.name"
+  />
+  <mat-card-content>
+    <div class="flex">
+      <mat-icon class="text-accent" *ngIf="review[0] / 5 >= 1">star</mat-icon>
+      <mat-icon class="text-accent" *ngIf="review[0] / 4 >= 1">star</mat-icon>
+      <mat-icon class="text-accent" *ngIf="review[0] / 3 >= 1">star</mat-icon>
+      <mat-icon class="text-accent" *ngIf="review[0] / 2 >= 1">star</mat-icon>
+      <mat-icon class="text-accent" *ngIf="review[0] / 1 >= 1">star</mat-icon>
+      <mat-icon class="text-gray" *ngIf="5 - review[0] > 0">star</mat-icon>
+      <mat-icon class="text-gray" *ngIf="4 - review[0] > 0">star</mat-icon>
+      <mat-icon class="text-gray" *ngIf="3 - review[0] > 0">star</mat-icon>
+      <mat-icon class="text-gray" *ngIf="2 - review[0] > 0">star</mat-icon>
+      <mat-icon class="text-gray" *ngIf="1 - review[0] > 0">star</mat-icon>
+      <button mat-button type="button" aria-label="Reviews count">
+        {{ review[1] }} <mat-icon>reviews</mat-icon>
+      </button>
+    </div>
+  </mat-card-content>
+  <mat-card-actions *ngIf="actionName">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="actionClick.emit(productDetails?.id)"
+    >
+      {{ actionName }} <mat-icon *ngIf="actionIcon">{{ actionIcon }}</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

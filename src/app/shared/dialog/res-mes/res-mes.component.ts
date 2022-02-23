@@ -7,11 +7,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './res-mes.component.html',
   styleUrls: ['./res-mes.component.scss'],
 })
-export class ResMesComponent implements OnInit {
+export class ResMesComponent {
   constructor(
     public dialogRef: MatDialogRef<ResMesComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
   ) {}
-
-  ngOnInit(): void {}
 }

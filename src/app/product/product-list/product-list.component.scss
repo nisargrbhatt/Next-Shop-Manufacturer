@@ -1,77 +1,85 @@
-main {
-  padding: 0;
-  margin: 0;
-}
+// main {
+//   padding: 0;
+//   margin: 0;
+// }
 .hero {
   margin: 0;
   padding: 0;
 }
-.hero-data {
-  display: block;
-  .hero-data-bar {
-    display: block;
-    background-size: cover;
-    width: 100%;
-    position: relative;
-    background: url('../../../assets/statics/search.jpg') center top no-repeat;
-    height: 25rem;
+// .hero-data {
+//   display: block;
+//   .hero-data-bar {
+//     display: block;
+//     background-size: cover;
+//     width: 100%;
+//     position: relative;
+//     background: url('../../../assets/statics/search.jpg') center top no-repeat;
+//     height: 25rem;
 
-    input {
-      background: rgba(255, 255, 255, 0.4);
-      border: none;
-      border-radius: 2rem;
-      position: relative;
-      display: block;
-      outline: none;
-      width: 400px;
-      height: 50px;
-      top: 10rem;
-      margin: auto;
-      padding: 10px;
-      font-family: 'Fira Code' monospace;
-      font-weight: 550;
-      font-size: medium;
-      color: rgb(0, 0, 0);
-      -webkit-box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.5);
-      box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.5);
-    }
-    ::-webkit-input-placeholder {
-      color: #666;
-    }
-    :-moz-placeholder {
-      color: #666;
-    }
-    ::-moz-placeholder {
-      color: #666;
-    }
-    :-ms-input-placeholder {
-      color: #666;
-    }
-  }
-  .create-btn {
-    display: flex;
-    justify-content: flex-end;
-    margin: 0.5rem 2rem;
-  }
-  .hero-data-result {
-    margin: 1rem auto;
-    padding: 1rem;
-    .hero-data-result-null {
-      text-align: center;
-    }
-  }
+//     input {
+//       background: rgba(255, 255, 255, 0.4);
+//       border: none;
+//       border-radius: 2rem;
+//       position: relative;
+//       display: block;
+//       outline: none;
+//       width: 400px;
+//       height: 50px;
+//       top: 10rem;
+//       margin: auto;
+//       padding: 10px;
+//       font-family: 'Fira Code' monospace;
+//       font-weight: 550;
+//       font-size: medium;
+//       color: rgb(0, 0, 0);
+//       -webkit-box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.5);
+//       box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.5);
+//     }
+//     ::-webkit-input-placeholder {
+//       color: #666;
+//     }
+//     :-moz-placeholder {
+//       color: #666;
+//     }
+//     ::-moz-placeholder {
+//       color: #666;
+//     }
+//     :-ms-input-placeholder {
+//       color: #666;
+//     }
+//   }
+//   .create-btn {
+//     display: flex;
+//     justify-content: flex-end;
+//     margin: 0.5rem 2rem;
+//   }
+//   .hero-data-result {
+//     margin: 1rem auto;
+//     padding: 1rem;
+//     .hero-data-result-null {
+//       text-align: center;
+//     }
+//   }
+// }
+
+// input:focus {
+//   animation: input_animation both 500ms;
+//   animation-timing-function: ease-in-out;
+// }
+
+// @keyframes input_animation {
+//   from {
+//     width: 20vw;
+//   }
+//   to {
+//     width: 50vw;
+//   }
+// }
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
 }
-
-input:focus {
-  animation: input_animation both 500ms;
-  animation-timing-function: ease-in-out;
-}
-
-@keyframes input_animation {
-  from {
-    width: 20vw;
-  }
-  to {
-    width: 50vw;
-  }
+mat-form-field {
+  width: 70%;
+  font-size: smaller;
 }

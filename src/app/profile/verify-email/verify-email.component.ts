@@ -80,7 +80,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
     let getUserDetailsReponse: GetUserDetailsResponse;
     try {
       getUserDetailsReponse = await this.profileService.getUserDetails();
-    } catch (error) {
+    } catch (error: any) {
       if (error.error instanceof ErrorEvent) {
         console.log(error);
       } else {
@@ -145,7 +145,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
     let emailOtpCheckResponse: EmailOtpCheckResponse;
     try {
       emailOtpCheckResponse = await this.profileService.emailOtpCheck(otpBody);
-    } catch (error) {
+    } catch (error: any) {
       if (error.error instanceof ErrorEvent) {
         console.log(error);
       } else {
@@ -197,7 +197,7 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
 
     try {
       getEmailOtpResponse = await this.profileService.getEmailOtp();
-    } catch (error) {
+    } catch (error: any) {
       if (error.error instanceof ErrorEvent) {
         console.log(error);
       } else {

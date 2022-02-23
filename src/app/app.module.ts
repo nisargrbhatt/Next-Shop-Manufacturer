@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { Auth0Service } from './auth/auth0.service';
 import { Error404Component } from './error404/error404.component';
@@ -25,7 +25,6 @@ import { HttpErrorInterceptor } from './http-error.interceptor';
     SharedModule,
     AngularMaterialModule,
     HttpClientModule,
-    NgbModule,
     ReactiveFormsModule,
     FormsModule,
 

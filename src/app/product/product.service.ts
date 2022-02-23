@@ -80,6 +80,18 @@ export class ProductService {
       .pipe(map((response) => response.data));
   }
 
+  getProductWithCategoryPriceReviewManufacturer(
+    productId: string,
+  ): Observable<any> {
+    return this.httpService
+      .get<GetProductResponse>(
+        BACKEND_URL +
+          basicAPIURIs.getProductWithCategoryPriceReviewManufacturer +
+          `/?productId=${productId}`,
+      )
+      .pipe(map((response) => response.data));
+  }
+
   getProductWithCategoryByManufacturerId(
     currentPage: number,
     pageSize: number,

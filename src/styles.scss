@@ -1,14 +1,267 @@
 /* You can add global styles to this file, and also import other style files */
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+/* Importing Bootstrap SCSS file. */
+// @import '~bootstrap/scss/bootstrap';
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto+Slab:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+/* ------------------- */
+/* Custom properties   */
+/* ------------------- */
+
+:root {
+  /* colors */
+  --clr-primary: 227, 67%, 54%, 1;
+  --clr-secondary: 61, 98%, 49%, 1;
+  --clr-white: 0, 0%, 100%, 1;
+  --clr-warn: 360, 100%, 58%, 1;
+  --clr-black: 0, 0%, 0%, 1;
+
+  /* font-sizes */
+  --fs-900: clamp(5rem, 8vw + 1rem, 9.375rem);
+  --fs-800: 3.5rem;
+  --fs-700: 1.5rem;
+  --fs-600: 1rem;
+  --fs-500: 1rem;
+  --fs-400: 0.9375rem;
+  --fs-300: 1rem;
+  --fs-200: 0.875rem;
+
+  /* font-families */
+  --ff-serif: unquote($string: 'Roboto Slab'), serif;
+  --ff-sans-cond: unquote($string: 'Roboto Condensed'), sans-serif;
+  --ff-sans-normal: unquote($string: 'Roboto'), sans-serif;
 }
 
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
-@import '~viewerjs/dist/viewer.css';
+@media (min-width: 35em) {
+  :root {
+    --fs-800: 5rem;
+    --fs-700: 2.5rem;
+    --fs-600: 1.5rem;
+    --fs-500: 1.25rem;
+    --fs-400: 1rem;
+  }
+}
+
+@media (min-width: 45em) {
+  :root {
+    /* font-sizes */
+    --fs-800: 6.25rem;
+    --fs-700: 3.5rem;
+    --fs-600: 2rem;
+    --fs-500: 1.75rem;
+    --fs-400: 1.125rem;
+  }
+}
+
+/* ------------------- */
+/* Reset               */
+/* ------------------- */
+
+/* https://piccalil.li/blog/a-modern-css-reset/ */
+
+/* Box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Reset margins */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+figure,
+picture {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-weight: 400;
+}
+
+/* set up the body */
+body {
+  font-family: var(--ff-sans-normal);
+  font-size: var(--fs-400);
+  color: hsla(var(--clr-black));
+  background-color: hsla(var(--clr-white));
+  line-height: 1.5;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  overflow-x: hidden;
+}
+
+/* make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* make form elements easier to work with */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* remove animations for people who've turned them off */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------- */
+/* Utility classes     */
+/* ------------------- */
+
+/* colors */
+
+.bg-primary {
+  background-color: hsla(var(--clr-primary));
+}
+.bg-accent {
+  background-color: hsla(var(--clr-secondary));
+}
+.bg-white {
+  background-color: hsla(var(--clr-white));
+}
+.bg-black {
+  background-color: hsla(var(--clr-black));
+}
+
+.text-primary {
+  color: hsla(var(--clr-primary));
+}
+.text-accent {
+  color: hsla(var(--clr-secondary));
+}
+.text-white {
+  color: hsla(var(--clr-white));
+}
+.text-black {
+  color: hsla(var(--clr-black));
+}
+.text-gray {
+  color: gray;
+}
+
+/* typography */
+
+.ff-serif {
+  font-family: var(--ff-serif);
+}
+.ff-sans-cond {
+  font-family: var(--ff-sans-cond);
+}
+.ff-sans-normal {
+  font-family: var(--ff-sans-normal);
+}
+
+.letter-spacing-1 {
+  letter-spacing: 4.75px;
+}
+.letter-spacing-2 {
+  letter-spacing: 2.7px;
+}
+.letter-spacing-3 {
+  letter-spacing: 2.35px;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.fs-900 {
+  font-size: var(--fs-900);
+}
+.fs-800 {
+  font-size: var(--fs-800);
+}
+.fs-700 {
+  font-size: var(--fs-700);
+}
+.fs-600 {
+  font-size: var(--fs-600);
+}
+.fs-500 {
+  font-size: var(--fs-500);
+}
+.fs-400 {
+  font-size: var(--fs-400);
+}
+.fs-300 {
+  font-size: var(--fs-300);
+}
+.fs-200 {
+  font-size: var(--fs-200);
+}
+
+.fs-900,
+.fs-800,
+.fs-700,
+.fs-600 {
+  line-height: 1.1;
+}
+
+/* Display */
+.flex {
+  display: flex;
+}
+
+.flex-c {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-r {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-50 {
+  flex: 50%;
+}
+
+.block {
+  display: block;
+}
+
+.jc-center {
+  justify-content: center;
+}
+.jc-start {
+  justify-content: flex-start;
+}
+.jc-end {
+  justify-content: flex-end;
+}
+
+.ai-ceter {
+  align-items: center;
+}
+.ai-start {
+  align-items: flex-start;
+}
+.ai-end {
+  align-items: flex-end;
+}

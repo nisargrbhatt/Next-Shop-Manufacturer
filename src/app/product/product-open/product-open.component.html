@@ -1,6 +1,6 @@
-<div class="hero" *ngIf="productDetails">
+<!-- <div class="hero" *ngIf="productDetails">
   <div class="hero-first">
-    <div class="first-image" ngxViewer *ngIf="productDetails.images">
+    <div class="first-image" *ngIf="productDetails.images">
       <img
         *ngFor="let image of productDetails.images"
         [src]="image.url"
@@ -101,5 +101,178 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <app-loader *ngIf="!productDetails"></app-loader>
+
+<!-- NEW DESIGN -->
+<div class="hero" *ngIf="productDetails">
+  <!-- IMAGE -->
+
+  <div class="product-images">
+    <div class="product-big-image">
+      <img
+        [src]="productDetails.images[selectedImage].url"
+        [alt]="productDetails.images[selectedImage].name"
+      />
+    </div>
+    <div class="product-small-images">
+      <img
+        *ngFor="let image of productDetails.images; let i = index"
+        [src]="image.url"
+        [alt]="image.name"
+        (mouseover)="selectedImage = i"
+      />
+    </div>
+  </div>
+
+  <div class="product-details">
+    <!-- PRODUCT NAME  -->
+    <h1 class="mat-headline">
+      {{ productDetails.name }}
+    </h1>
+    <h4 class="mat-subheading-1">
+      {{ productDetails.category.name }}
+    </h4>
+    <div class="flex">
+      <mat-icon class="text-accent" *ngIf="reviewStar / 5 >= 1">star</mat-icon>
+      <mat-icon class="text-accent" *ngIf="reviewStar / 4 >= 1">star</mat-icon>
+      <mat-icon class="text-accent" *ngIf="reviewStar / 3 >= 1">star</mat-icon>
+      <mat-icon class="text-accent" *ngIf="reviewStar / 2 >= 1">star</mat-icon>
+      <mat-icon class="text-accent" *ngIf="reviewStar / 1 >= 1">star</mat-icon>
+      <mat-icon class="text-gray" *ngIf="5 - reviewStar > 0">star</mat-icon>
+      <mat-icon class="text-gray" *ngIf="4 - reviewStar > 0">star</mat-icon>
+      <mat-icon class="text-gray" *ngIf="3 - reviewStar > 0">star</mat-icon>
+      <mat-icon class="text-gray" *ngIf="2 - reviewStar > 0">star</mat-icon>
+      <mat-icon class="text-gray" *ngIf="1 - reviewStar > 0">star</mat-icon>
+      <button mat-flat-button type="button" aria-label="Reviews count">
+        {{ productDetails.reviewes.length }} <mat-icon>reviews</mat-icon>
+      </button>
+    </div>
+
+    <p class="mat-subheading-2">
+      {{ productDetails.small_description }}
+    </p>
+
+    <!-- META -->
+    <!-- ACTIONS -->
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>ACTIONS</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p class="mat-subheading-2" *ngIf="productDetails.decline_count">
+          Approval declined {{ productDetails.decline_count }} times
+        </p>
+
+        <p
+          class="mat-subheading-2"
+          *ngIf="productDetails.approval_status === false"
+        >
+          Approval Pending <mat-icon>pending_actions</mat-icon>
+        </p>
+        <p
+          class="mat-subheading-2"
+          *ngIf="productDetails.productApproved === true"
+        >
+          Approved <mat-icon>correct</mat-icon>
+        </p>
+        <p
+          class="mat-subheading-2"
+          *ngIf="
+            productDetails.approval_status === true &&
+            productDetails.productApproved === false
+          "
+        >
+          Not Approved <mat-icon>cancel</mat-icon>
+        </p>
+        <mat-action-row>
+          <button
+            mat-raised-button
+            color="primary"
+            class="product-update-btn"
+            [routerLink]="['/product/update/', productId]"
+            *ngIf="
+              productDetails.approval_status === false ||
+              (productDetails.approval_status === true &&
+                productDetails.productApproved === false)
+            "
+          >
+            Update
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            class="product-image-update-btn"
+            *ngIf="
+              productDetails.approval_status === false ||
+              (productDetails.approval_status === true &&
+                productDetails.productApproved === false)
+            "
+            (click)="onImageUpdate()"
+          >
+            Update Images
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            class="product-approval-btn"
+            *ngIf="
+              productDetails.productApproved === false &&
+              productDetails.approval_status === true
+            "
+            (click)="onApprovalRenew()"
+          >
+            Renew Approval
+          </button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <!-- PRICES  -->
+    <mat-accordion *ngIf="productDetails.prices">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> PRICES </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-product-price-table
+          [priceData]="productDetails.prices"
+          (addToCart)="addToCart($event)"
+          (removeToCart)="removeToCart($event)"
+        ></app-product-price-table>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <!-- DESCRIPTION  -->
+    <mat-accordion *ngIf="productDetails.prices">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> DESCRIPTION </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p class="mat-subheading-1">{{ productDetails.description }}</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <!-- REVIEWS  -->
+    <mat-accordion *ngIf="productDetails.prices">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> REVIEWS </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div
+          class="product-review"
+          *ngFor="let review of productDetails.reviewes"
+        >
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ review.user.name }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="mat-subheading-2">{{ review.message }}</p>
+            </mat-card-content>
+          </mat-card>
+
+          <h3 class="review-null-text" *ngIf="!productDetails.reviewes.length">
+            No Reviews found
+          </h3>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

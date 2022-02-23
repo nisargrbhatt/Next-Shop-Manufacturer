@@ -1,4 +1,4 @@
-<div class="hero">
+<!-- <div class="hero">
   <div class="hero-bar">
     <div class="hero-bar-spacer"></div>
     <button mat-raised-button color="primary" (click)="onRefresh()">
@@ -68,4 +68,87 @@
     </div>
   </div>
   <app-loader *ngIf="!kycApprovals"></app-loader>
+</div> -->
+
+<!-- NEW DESIGN -->
+
+<div class="hero" *ngIf="kycApprovals">
+  <mat-toolbar color="primary">
+    <div class="part-one">
+      <button mat-flat-button color="primary">
+        Approvals: {{ totalApprovals }}
+      </button>
+    </div>
+    <div class="part-two">
+      <button
+        mat-flat-button
+        color="primary"
+        routerLink="/kyc/create-approval"
+        *ngIf="!merchantVerified"
+      >
+        <mat-icon>add</mat-icon> Create KYC Approval
+      </button>
+    </div>
+    <div class="part-three">
+      <button mat-flat-button color="primary" (click)="onRefresh()">
+        <mat-icon>refresh</mat-icon> Refresh
+      </button>
+    </div>
+  </mat-toolbar>
+  <div class="hero-data-result" *ngIf="kycApprovals">
+    <mat-expansion-panel *ngFor="let kycApproval of kycApprovals.rows">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ kycApproval.name }}</mat-panel-title>
+        <mat-panel-description>{{
+          kycApproval.aadhaar_number
+        }}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <p class="mat-subheading-1" *ngIf="kycApproval.name">
+        Name: {{ kycApproval.name }}
+      </p>
+      <p class="mat-subheading-1" *ngIf="kycApproval.aadhaar_number">
+        Aadhaar No: {{ kycApproval.aadhaar_number }}
+      </p>
+      <p class="mat-subheading-1" *ngIf="kycApproval.contact_no">
+        Contact No: {{ kycApproval.contact_no }}
+      </p>
+      <p class="mat-subheading-1" *ngIf="kycApproval.email">
+        Email: {{ kycApproval.email }}
+      </p>
+      <p class="mat-subheading-1" *ngIf="kycApproval.kyc_approval === false">
+        Status: Pending
+      </p>
+      <p
+        class="mat-subheading-1"
+        *ngIf="
+          kycApproval.admin_decision === false &&
+          kycApproval.kyc_approval === true
+        "
+      >
+        Status: Declined
+      </p>
+      <p
+        class="mat-subheading-1"
+        *ngIf="
+          kycApproval.admin_decision === true &&
+          kycApproval.kyc_approval === true
+        "
+      >
+        Status: Approved
+      </p>
+    </mat-expansion-panel>
+    <div
+      class="hero-data-result-null mat-display-1"
+      *ngIf="kycApprovals.count === 0"
+    >
+      No Approvals Found
+    </div>
+    <mat-paginator
+      [length]="totalApprovals"
+      [pageSize]="approvalsPerPage"
+      (page)="onPageChange($event)"
+    ></mat-paginator>
+  </div>
 </div>
+<app-loader *ngIf="!kycApprovals"></app-loader>
+<!-- </div> -->

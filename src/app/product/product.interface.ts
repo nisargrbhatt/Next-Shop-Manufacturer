@@ -102,9 +102,10 @@ export interface ProductData {
   userId: string;
   createdAt: string;
   updatedAt: string;
-  user: User;
+  user?: User;
   images: Image[];
   category?: Row;
+  reviewes?: ReviewData[];
 }
 
 export interface Image {
@@ -126,4 +127,13 @@ export interface User {
   merchant_or_manufacturer_verified: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ReviewData {
+  id: string;
+  message?: string;
+  stars: number;
+  userId: string;
+  productId: string;
+  user: User;
 }
