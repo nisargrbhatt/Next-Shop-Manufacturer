@@ -1,11 +1,11 @@
 import { AddAddressResponse } from './../profile.interface';
 import { AddAddressData } from './add-address.interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+
 import { Auth0Service } from 'src/app/auth/auth0.service';
 import { ProfileService } from '../profile.service';
 import { ErrorComponent } from 'src/app/shared/dialog/error/error.component';
@@ -17,15 +17,12 @@ import { environment } from 'src/environments/environment';
   templateUrl: './add-address.component.html',
   styleUrls: ['./add-address.component.scss'],
 })
-export class AddAddressComponent implements OnInit, OnDestroy {
-  private isAuthenticate = false;
+export class AddAddressComponent implements OnInit {
   pageLoding = false;
   formLoading = false;
 
   addressForm: FormGroup;
   addressFormDisabled = false;
-
-  private authStatusSub: Subscription;
 
   constructor(
     private profileService: ProfileService,
@@ -37,16 +34,6 @@ export class AddAddressComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.pageLoding = true;
-
-    this.isAuthenticate = this.authService.IsAuth;
-    this.authStatusSub = this.authService.AuthStatusListener.subscribe(
-      (authStatus) => {
-        this.isAuthenticate = authStatus;
-        if (!this.isAuthenticate) {
-          this.router.navigate(['/login']);
-        }
-      },
-    );
 
     this.addressForm = new FormGroup({
       name: new FormControl(
@@ -104,24 +91,24 @@ export class AddAddressComponent implements OnInit, OnDestroy {
 
   disableAddressForm(): void {
     this.addressFormDisabled = true;
-    this.addressForm.get('name').disable();
-    this.addressForm.get('address_line1').disable();
-    this.addressForm.get('address_line2').disable();
-    this.addressForm.get('city').disable();
-    this.addressForm.get('state').disable();
-    this.addressForm.get('zipcode').disable();
-    this.addressForm.get('contact_no').disable();
+    this.addressForm.get('name')?.disable();
+    this.addressForm.get('address_line1')?.disable();
+    this.addressForm.get('address_line2')?.disable();
+    this.addressForm.get('city')?.disable();
+    this.addressForm.get('state')?.disable();
+    this.addressForm.get('zipcode')?.disable();
+    this.addressForm.get('contact_no')?.disable();
   }
 
   enableAddressForm(): void {
     this.addressFormDisabled = false;
-    this.addressForm.get('name').enable();
-    this.addressForm.get('address_line1').enable();
-    this.addressForm.get('address_line2').enable();
-    this.addressForm.get('city').enable();
-    this.addressForm.get('state').enable();
-    this.addressForm.get('zipcode').enable();
-    this.addressForm.get('contact_no').enable();
+    this.addressForm.get('name')?.enable();
+    this.addressForm.get('address_line1')?.enable();
+    this.addressForm.get('address_line2')?.enable();
+    this.addressForm.get('city')?.enable();
+    this.addressForm.get('state')?.enable();
+    this.addressForm.get('zipcode')?.enable();
+    this.addressForm.get('contact_no')?.enable();
   }
 
   async onAddressFormSubmit(): Promise<void> {
@@ -186,9 +173,5 @@ export class AddAddressComponent implements OnInit, OnDestroy {
         duration: 2 * 1000,
       });
     }
-  }
-
-  ngOnDestroy(): void {
-    this.authStatusSub.unsubscribe();
   }
 }

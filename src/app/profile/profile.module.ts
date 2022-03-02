@@ -1,4 +1,3 @@
-import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { SharedModule } from './../shared/shared.module';
 import { AngularMaterialModule } from './../angular-material.module';
 import { NgModule } from '@angular/core';
@@ -16,7 +15,6 @@ import { AddAddressComponent } from './add-address/add-address.component';
     AddressesComponent,
     UserDetailsComponent,
     AddAddressComponent,
-    VerifyEmailComponent,
   ],
   imports: [
     CommonModule,

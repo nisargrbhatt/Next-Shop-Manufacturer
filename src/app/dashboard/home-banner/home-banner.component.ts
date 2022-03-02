@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth0Service } from 'src/app/auth/auth0.service';
+import { AuthService } from '@auth0/auth0-angular';
+
 import { SubSink } from 'subsink';
 
 @Component({
@@ -12,21 +13,18 @@ export class HomeBannerComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   isAuthenticated = false;
 
-  constructor(private authService: Auth0Service, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.isAuthenticated = this.authService.IsAuth;
     if (this.isAuthenticated) {
       this.router.navigate(['/home']);
     }
-    this.subs.sink = this.authService.AuthStatusListener.subscribe(
-      (authStatus) => {
-        this.isAuthenticated = authStatus;
-        if (authStatus) {
-          this.router.navigate(['/home']);
-        }
-      },
-    );
+    this.subs.sink = this.auth.isAuthenticated$.subscribe((authStatus) => {
+      this.isAuthenticated = authStatus;
+      if (authStatus) {
+        this.router.navigate(['/home']);
+      }
+    });
   }
 
   ngOnDestroy(): void {

@@ -9,15 +9,14 @@ export interface DialogData {
 }
 
 export interface OAuthCallBody {
-  email: string;
-  name: string;
-  sub: string;
-
-  email_verified: boolean;
+  email: string | undefined;
+  name: string | undefined;
+  sub: string | undefined;
+  email_verified: boolean | undefined;
   role: string;
 }
 
-export interface OAuthCallResponseData {
+export class OAuthCallResponseData {
   role: string;
   access: string;
   emailVerified: string;
@@ -25,7 +24,7 @@ export interface OAuthCallResponseData {
   merchantVerified: boolean;
 }
 
-export interface OAuthCallResponse {
+export class OAuthCallResponse {
   message: string;
   valid: boolean;
   error?: ErrorData;

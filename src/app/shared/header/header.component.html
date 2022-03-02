@@ -12,7 +12,7 @@
   <button
     mat-icon-button
     [matMenuTriggerFor]="menu"
-    *ngIf="auth0Service.user$ | async as user"
+    *ngIf="auth.user$ | async as user"
   >
     <img class="avatar" [src]="user?.picture" />
   </button>

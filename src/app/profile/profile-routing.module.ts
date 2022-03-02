@@ -1,4 +1,3 @@
-import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { AddAddressComponent } from './add-address/add-address.component';
 import { ProfileViewComponent } from './profile-view/profile-view.component';
 import { NgModule } from '@angular/core';
@@ -14,11 +13,6 @@ const routes: Routes = [
   {
     path: 'add-address',
     component: AddAddressComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'verify-email',
-    component: VerifyEmailComponent,
     canActivate: [AuthGuard],
   },
 ];
