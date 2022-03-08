@@ -23,6 +23,10 @@ const routes: Routes = [
       import('./product/product.module').then((m) => m.ProductModule),
   },
   {
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then((m) => m.ChatModule),
+  },
+  {
     path: '',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
