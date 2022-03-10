@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   backend_url: 'http://localhost:3001',
   backend_url_secure: 'https://localhost:3002',
+  backend_chat_url: 'http://localhost:3004',
   debug: true,
   auth0ClientId: 'YSCYOG2xmB9HRR7LYGf21NeZEzWFGFGw',
   auth0Audience: 'http://localhost:3001',
@@ -43,6 +44,7 @@ export const basicAPIURIs = {
   // User Controller
   emailCheck: '/user/emailCheck',
   oAuthCall: '/user/oAuthCall',
+  getUserBasicData: '/user/getUserBasicData',
   // KYCImage Controller
   getImageByKycId: '/kyc-image/getImageByKycId',
 };

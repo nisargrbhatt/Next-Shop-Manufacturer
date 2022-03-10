@@ -1,0 +1,33 @@
+<div class="hero">
+  <div class="chat-header" *ngIf="recieverUserData">
+    <h2>{{ recieverUserData.name }}</h2>
+  </div>
+  <div class="chat-area" *ngIf="chats$ | async as chats">
+    <div class="chats" *ngFor="let chat of chats">
+      <p
+        [class]="
+          chat.senderId === profileClaims.userId
+            ? 'chat-mine-bubble'
+            : 'chat-your-bubble'
+        "
+      >
+        {{ chat.message }}
+      </p>
+    </div>
+  </div>
+  <div class="chat-actions">
+    <mat-form-field appearance="outline">
+      <input
+        matInput
+        type="text"
+        name="chat"
+        id="chat"
+        placeholder="Write a message"
+        [formControl]="chatInput"
+      />
+      <button matSuffix mat-icon-button color="primary" (click)="onSend()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
