@@ -183,8 +183,15 @@
 
 .example-card {
   max-width: 400px;
+  margin: 0.5rem;
+  overflow: hidden;
 }
 .mat-card-image {
   max-height: 200px;
   object-fit: contain;
+}
+
+mat-card-title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

@@ -97,13 +97,13 @@ export class ProductService {
     pageSize: number,
     search?: string,
   ): Observable<any> {
-    const searchFilter = search.replace(new RegExp('[.?/=#]'), '');
+    const searchFilter = search?.replace(new RegExp('[.?/=#]'), '');
     return this.httpService
       .get<GetProductWithCategoryByManufacturerIdResponse>(
         BACKEND_URL +
           basicAPIURIs.getProductWithCategoryByManufacturerId +
           `/?manufacturerId=${
-            this.authService.ProfileClaims.userId
+            this.authService?.ProfileClaims?.userId
           }&currentPage=${currentPage}&pageSize=${pageSize}&search=${encodeURI(
             searchFilter,
           )}`,
@@ -116,13 +116,13 @@ export class ProductService {
     pageSize: number,
     search?: string,
   ): Observable<any> {
-    const searchFilter = search.replace(new RegExp('[.?/=#]'), '');
+    const searchFilter = search?.replace(new RegExp('[.?/=#]'), '');
     return this.httpService
       .get<GetProductWithCategoryByManufacturerIdApprovalPendingResponse>(
         BACKEND_URL +
           basicAPIURIs.getProductWithCategoryByManufacturerIdApprovalPending +
           `/?manufacturerId=${
-            this.authService.ProfileClaims.userId
+            this.authService?.ProfileClaims?.userId
           }&currentPage=${currentPage}&pageSize=${pageSize}&search=${encodeURI(
             searchFilter,
           )}`,
@@ -144,14 +144,12 @@ export class ProductService {
     pageSize: number,
     search?: string,
   ): Observable<any> {
-    console.log('Here');
-
     return this.httpService
       .get<GetProductWithCategoryByManufacturerIdApprovalPendingResponse>(
         BACKEND_URL +
           basicAPIURIs.getAllProductWithSearchByManufacturerId +
           `/?manufacturerId=${
-            this.authService.ProfileClaims.userId
+            this.authService?.ProfileClaims?.userId
           }&currentPage=${currentPage}&pageSize=${pageSize}&search=${encodeURI(
             search,
           )}`,
@@ -164,7 +162,7 @@ export class ProductService {
       .get<GetProductWithCategoryByManufacturerIdApprovalPendingResponse>(
         BACKEND_URL +
           basicAPIURIs.getAllProductsByManufacturerId +
-          `/?manufacturerId=${this.authService.ProfileClaims.userId}&currentPage=${currentPage}&pageSize=${pageSize}`,
+          `/?manufacturerId=${this.authService?.ProfileClaims?.userId}&currentPage=${currentPage}&pageSize=${pageSize}`,
       )
       .pipe(map((response) => response.data));
   }

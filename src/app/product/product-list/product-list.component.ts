@@ -42,7 +42,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
-        filter((search) => search !== ''),
+        filter((search) => search.trim().length !== 0),
         switchMap((search) =>
           this.productService.getAllProductsWithSearch(
             this.pageNumber.getValue(),
@@ -60,13 +60,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .pipe(
         distinctUntilChanged(),
         switchMap(() => {
-          if (this.search.value === '') {
-            return EMPTY;
-          }
+          // if (this.search.value === '') {
+          //   return EMPTY;
+          // }
           return this.productService.getAllProductsWithSearch(
             this.pageNumber.getValue(),
             20,
-            this.search.value,
+            this.search.value.trim(),
           );
         }),
       )

@@ -5,7 +5,7 @@ import {
 } from './auth.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { filter, mergeMap, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, mergeMap, Observable, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService, User } from '@auth0/auth0-angular';
 
@@ -19,6 +19,9 @@ const BACKEND_URL = environment.production
 export class Auth0Service {
   private profileClaims: Auth0ProfileData | undefined;
   private auth0ProfileClaims: User | undefined | null;
+
+  private authStatus = new BehaviorSubject<boolean>(false);
+  private authStatusNow = false;
 
   constructor(
     private httpService: HttpClient,
@@ -55,6 +58,8 @@ export class Auth0Service {
       )
       .subscribe((response: OAuthCallResponse) => {
         this.profileClaims = response.data;
+        this.authStatusNow = true;
+        this.authStatus.next(true);
       });
   }
 
@@ -68,6 +73,14 @@ export class Auth0Service {
 
   get Auth0ProfileClaims(): User | undefined | null {
     return this.auth0ProfileClaims;
+  }
+
+  get AuthStatus$(): Observable<boolean> {
+    return this.authStatus.asObservable();
+  }
+
+  getAuthStatus(): boolean {
+    return this.authStatusNow;
   }
 
   init(): void {
